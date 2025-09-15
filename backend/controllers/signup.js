@@ -5,7 +5,7 @@ export const signUp = async (req, res) => {
   try {
     const { fullName, email, password, mobile, role } = req.body;
 
-    const user = await User.findOne({ email });
+    let user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({ message: "This email is already exist!" });
     }
@@ -36,6 +36,10 @@ export const signUp = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
+    return res.status(201).json({
+      message: "User registered successfully!",
+      user,
+    });
   } catch (error) {
     console.log(`SignUp Error is: ${error.message}`);
   }
@@ -45,13 +49,13 @@ export const signIn = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
+    let user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: "This email does not exist!" });
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Incorrect Passwprd!" });
+      return res.status(400).json({ message: "Incorrect Password!" });
     }
 
     const token = await generateToken(user._id);
@@ -61,8 +65,17 @@ export const signIn = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
-    return res.status(200).json(user);
+    return res.status(200).json({ message: "Login successful!", user });
   } catch (error) {
     return res.status(500).json(`SignIn Error: ${error.message}`);
+  }
+};
+
+export const signOut = async (req, res) => {
+  try {
+    res.clearCookie("token");
+    return res.status(200).json({ message: "Logout successfully!" });
+  } catch (error) {
+    return res.status(500).json(`SignOut error: ${error.message}`);
   }
 };
