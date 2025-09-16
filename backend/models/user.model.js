@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: ["user", "owner", "deliveryBoy"],
-      required: true,
+      // required: true,
     },
   },
   { timestamps: true }

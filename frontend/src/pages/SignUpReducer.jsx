@@ -11,7 +11,7 @@ export const reducer = (state, action) => {
     case "SET_FIELD":
       return { ...state, [action.field]: action.value };
     case "RESET_FORM":
-      return action.payload;
+      return initialValue;
     default:
       return state;
   }

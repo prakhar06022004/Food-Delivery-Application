@@ -1,9 +1,10 @@
-import { useState,useReducer } from "react";
+import { useState, useReducer } from "react";
 import { FaEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
-import {reducer,initialValue} from './SignUpReducer'
+import { reducer, initialValue } from "./SignUpReducer";
+import axios from "axios";
 const SignUp = () => {
   const [showRole, setShowRole] = useState("user");
   const [showPassword, setShowPassword] = useState(false);
@@ -15,9 +16,27 @@ const SignUp = () => {
       field: e.target.name,
       value: e.target.value,
     });
-
   };
-      const [state,dispatch] = useReducer(reducer,initialValue)
+  const [state, dispatch] = useReducer(reducer, initialValue);
+  const fetching = async () => {
+    try {
+      const fetchData = await axios.post(
+        "http://localhost:8000/api/auth/signup",
+        {
+          fullName: state.fullName,
+          email: state.email,
+          mobile: state.mobile,
+          password: state.password,
+          role: showRole,
+        },
+        { withCredentials: true }
+      );
+      console.log(fetchData);
+      dispatch({ type: "RESET_FORM" });
+    } catch (error) {
+      console.log(error.response?.data);
+    }
+  };
 
   return (
     <div className="bg-[rgb(255,255,238)] w-full h-screen flex justify-center items-center p-2">
@@ -94,7 +113,7 @@ const SignUp = () => {
               value={state.password}
             />
             <button
-              className="absolute right-2 top-2 cursor-pointer"
+              className="absolute right-3 top-3 cursor-pointer"
               onClick={() => setShowPassword((prev) => !prev)}
             >
               {showPassword ? <FaRegEyeSlash /> : <FaEye />}
@@ -124,7 +143,11 @@ const SignUp = () => {
             </div>
           </div>
         </div>
-        <button className="w-full bg-[#ff5100] py-2 rounded-[10px] text-white my-4 cursor-pointer font-medium">
+        <button
+          type="button"
+          className="w-full bg-[#ff5100] py-2 rounded-[10px] text-white my-4 cursor-pointer font-medium"
+          onClick={fetching}
+        >
           Sign Up
         </button>
         <button className="flex justify-center items-center gap-2 py-1.5 cursor-pointer rounded-[10px] border w-full">
