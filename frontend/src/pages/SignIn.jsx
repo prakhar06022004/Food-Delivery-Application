@@ -84,7 +84,7 @@ const SignIn = () => {
             </button>
           </div>
         </div>
-<p className="text-right font-light cursor-pointer text-gray-500" onClick={()=>navigate('/forgot-password')}>Forgot Password</p>
+<p className="text-right font-light cursor-pointer text-gray-500 hover:underline" onClick={()=>navigate('/forgot-password')}>Forgot Password</p>
         <button
           type="button"
           className="w-full bg-[#ff5100] py-2 rounded-[10px] text-white my-4 cursor-pointer font-medium"
