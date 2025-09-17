@@ -17,6 +17,6 @@ export const sendMail = async (to, otp) => {
     from: process.env.EMAIL,
     to,
     subject: "Reset Password",
-    html: `<p>Your OTP for Password Reset is <strong>${otp}</strong>It will be expire in 5 minutes!</p>`,
+    html: `<p>Your OTP for Password Reset is <strong>${otp}</strong>. It will be expire in 5 minutes!</p>`,
   });
 };

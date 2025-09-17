@@ -2,6 +2,7 @@ import { AiOutlineLeftCircle } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 const ForgotPassword = () => {
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
@@ -11,7 +12,36 @@ const ForgotPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleReset = () => {
+  const handleSendOtp = async () => {
+    // console.log("Email entered:", email)
+    try {
+      const fetchResult = await axios.post(
+        "http://localhost:8000/api/auth/send-otp",
+        { email },
+        { withCredentials: true }
+      );
+      console.log(fetchResult.data);
+      setStep(2);
+    } catch (err) {
+      setError(err.response?.data?.message || err.message);
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    try {
+      const fetchResult = await axios.post(
+        "http://localhost:8000/api/auth/verifying-otp",
+        { email, otp },
+        { withCredentials: true }
+      );
+      console.log(fetchResult);
+      setStep(3);
+    } catch (err) {
+      setError(err.response?.data?.message || "Something went wrong!");
+    }
+  };
+
+  const handleResetPassword = async () => {
     if (!newPassword.trim() || !confirmPassword.trim()) {
       setError("Password cannot be empty or spaces only!");
       return;
@@ -19,11 +49,20 @@ const ForgotPassword = () => {
     if (newPassword !== confirmPassword) {
       setError("Password did not match!");
       return;
-    } else {
-      alert("Password Reset Successfully!✅");
+    }
+    try {
+      const fetchResult = await axios.post(
+        "http://localhost:8000/api/auth/reset-password",
+        { email, newPassword },
+        { withCredentials: true }
+      );
+      console.log(fetchResult);
       navigate("/signin");
+    } catch (err) {
+      setError(err.response?.data?.message || "Something went wrong!");
     }
   };
+
   return (
     <div className="bg-[rgb(255,255,238)] w-full h-screen flex justify-center items-center p-2">
       <div className="px-3 py-5 font-extralight w-full max-w-md bg-white shadow-2xl rounded-2xl border-gray-100">
@@ -57,7 +96,7 @@ const ForgotPassword = () => {
             </Link>
             <button
               className="w-full rounded-3xl border bg-gradient-to-r from-[#FF4B1F] to-[#FF9068] text-white text-[18px] font-semibold py-2.5 mt-5 cursor-pointer"
-              onClick={() => setStep(2)}
+              onClick={handleSendOtp}
             >
               Send Otp
             </button>
@@ -80,8 +119,8 @@ const ForgotPassword = () => {
               <input
                 className="border border-gray-400 focus:outline-none w-full px-2 py-2 rounded-2xl focus:border-amber-600 focus:ring-1 focus:ring-amber-300"
                 type="text"
-                name="email"
-                id="email"
+                name="verifyOtp"
+                id="verifyOtp"
                 placeholder="Enter Otp"
                 onChange={(e) => setOtp(e.target.value)}
                 value={otp}
@@ -94,7 +133,7 @@ const ForgotPassword = () => {
             </Link>
             <button
               className="w-full rounded-3xl border bg-gradient-to-r from-[#FF4B1F] to-[#FF9068] text-white text-[18px] font-semibold py-2.5 mt-5 cursor-pointer"
-              onClick={() => setStep(3)}
+              onClick={handleVerifyOtp}
             >
               Verify
             </button>
@@ -134,7 +173,7 @@ const ForgotPassword = () => {
             </Link>
             <button
               className="w-full rounded-3xl border bg-gradient-to-r from-[#FF4B1F] to-[#FF9068] text-white text-[18px] font-semibold py-2.5 mt-5 cursor-pointer"
-              onClick={handleReset}
+              onClick={handleResetPassword}
             >
               Reset
             </button>
