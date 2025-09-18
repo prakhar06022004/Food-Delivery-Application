@@ -4,6 +4,8 @@ import { FaRegEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 import { reducer, initialValue } from "./SignUpReducer";
+import { auth } from "../firebase.js";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import axios from "axios";
 const SignUp = () => {
   const [showRole, setShowRole] = useState("user");
@@ -38,6 +40,32 @@ const SignUp = () => {
     }
   };
 
+  const handleGoogleAuth = async () => {
+    if (!state.mobile) {
+      return alert("Mobile number is required!");
+    } else if (state.mobile.length < 10) {
+      return alert("Invalid mobile number!");
+    }
+    const provider = new GoogleAuthProvider();
+    const result = await signInWithPopup(auth, provider);
+    console.log(result.user);
+    try {
+      const finalData = await axios.post(
+        "http://localhost:8000/api/auth/google-auth",
+        {
+          fullName: result.user.displayName,
+          email: result.user.email,
+          role: showRole,
+          mobile: state.mobile,
+        },
+        { withCredentials: true }
+      );
+      console.log(finalData);
+      // console.log(result);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <>
       {/* <div className="absolute inset-0 bg-[url('/BG4.jpg')] bg-cover bg-center "></div> */}
@@ -153,7 +181,10 @@ const SignUp = () => {
           >
             Sign Up
           </button>
-          <button className="flex justify-center items-center gap-2 py-1.5 cursor-pointer rounded-[10px] border w-full">
+          <button
+            className="flex justify-center items-center gap-2 py-1.5 cursor-pointer rounded-[10px] border w-full"
+            onClick={handleGoogleAuth}
+          >
             <FcGoogle size={22} />
             Sign Up with Google
           </button>
