@@ -8,17 +8,25 @@ export const signUp = async (req, res) => {
 
     let user = await User.findOne({ email });
     if (user) {
-      return res.status(400).json({ message: "This email is already exist!" });
+      return res.status(400).json({
+        errors: {
+          email: "This Email is already exist",
+        },
+      });
     }
     if (password.length < 8) {
-      return res
-        .status(400)
-        .json({ message: "Password must be at least 8 charaters!" });
+      return res.status(400).json({
+        errors: {
+          password: "Password must be atleast 8 characters",
+        },
+      });
     }
     if (mobile.length < 10) {
-      return res
-        .status(400)
-        .json({ message: "Mobile number should be at least 10 digits." });
+      return res.status(400).json({
+        errors: {
+          mobile: "Mobile number should be at least 10 digits.",
+        },
+      });
     }
 
     const hashPassword = await bcrypt.hash(password, 10);
@@ -37,12 +45,13 @@ export const signUp = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
-    return res.status(201).json({
-      message: "User registered successfully!",
-      user,
-    });
+    return res.status(201).json({ message: "User Registered Successfully!" });
   } catch (error) {
-    return res.status(500).json(`SignUp Error is: ${error.message}`);
+    return res.status(500).json({
+      errors: {
+        general: "SignUp Error" + error.message,
+      },
+    });
   }
 };
 
@@ -68,7 +77,11 @@ export const signIn = async (req, res) => {
     });
     return res.status(200).json({ message: "Login successful!", user });
   } catch (error) {
-    return res.status(500).json(`SignIn Error: ${error.message}`);
+    return res.status(500).json({
+      errors: {
+        general: "SignIn Error" + error.message,
+      },
+    });
   }
 };
 
@@ -77,7 +90,11 @@ export const signOut = async (req, res) => {
     res.clearCookie("token");
     return res.status(200).json({ message: "Logout successfully!" });
   } catch (error) {
-    return res.status(500).json(`SignOut error: ${error.message}`);
+    return res.status(500).json({
+      errors: {
+        general: "SignOut Error" + error.message,
+      },
+    });
   }
 };
 
@@ -96,7 +113,11 @@ export const sendOtp = async (req, res) => {
     await sendMail(email, otp);
     return res.status(200).json({ message: "Otp sent successfully!" });
   } catch (error) {
-    return res.status(500).json({ message: `${error.message}` });
+    return res.status(500).json({
+      errors: {
+        general: "Send OTP Error" + error.message,
+      },
+    });
   }
 };
 
@@ -113,9 +134,11 @@ export const verifyingOtp = async (req, res) => {
     await user.save();
     return res.status(200).json({ message: "OTP Verify Successfully!" });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: `Verify Otp error: ${error.message}` });
+    return res.status(500).json({
+      errors: {
+        general: "Verify Otp Error" + error.message,
+      },
+    });
   }
 };
 
@@ -132,7 +155,11 @@ export const resetPassword = async (req, res) => {
     await user.save();
     return res.status(200).json({ message: "Password reset successfully" });
   } catch (error) {
-    return res.status(500).json({ message: `Reset password error: ${error}` });
+    return res.status(500).json({
+      errors: {
+        general: "Reset Password Error " + error.message,
+      },
+    });
   }
 };
 
@@ -141,11 +168,11 @@ export const googleAuth = async (req, res) => {
     const { email, fullName, mobile, role } = req.body;
     let user = await User.findOne({ email });
     if (!user) {
-      user = User.create({
+      user = await User.create({
         fullName,
         email,
         mobile,
-        role
+        role,
       });
     }
 
@@ -156,8 +183,12 @@ export const googleAuth = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
-    return res.status(200).json({ message: user });
+    return res.status(200).json({ message: "Google Auth successful!", user });
   } catch (error) {
-    return res.status(500).json(error.message);
+    return res.status(500).json({
+      errors: {
+        general: "Something went wrong! " + error.message,
+      },
+    });
   }
 };

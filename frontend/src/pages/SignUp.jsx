@@ -11,6 +11,8 @@ const SignUp = () => {
   const [showRole, setShowRole] = useState("user");
   const [showPassword, setShowPassword] = useState(false);
   const roles = ["user", "owner", "deliveryBoy"];
+  const [err, setErr] = useState({});
+  const [success, setSuccess] = useState("");
   const navigate = useNavigate();
   const handleChange = (e) => {
     dispatch({
@@ -34,9 +36,13 @@ const SignUp = () => {
         { withCredentials: true }
       );
       console.log(fetchData);
+      setErr({});
+      setSuccess(fetchData.data); // backend se aa raha message
+
       dispatch({ type: "RESET_FORM" });
     } catch (error) {
-      console.log(error.response?.data);
+      setErr(error?.response?.data?.errors || {});
+      setSuccess("");
     }
   };
 
@@ -62,8 +68,10 @@ const SignUp = () => {
       );
       console.log(finalData);
       // console.log(result);
+      setErr({});
     } catch (error) {
-      console.log(error.message);
+      setErr(error?.response?.data?.errors || {});
+      setSuccess("");
     }
   };
   return (
@@ -91,6 +99,7 @@ const SignUp = () => {
                 placeholder="Enter your fullname..."
                 onChange={handleChange}
                 value={state.fullName}
+                required
               />
             </div>
           </div>
@@ -102,14 +111,16 @@ const SignUp = () => {
             <div className="mb-1">
               <input
                 className="border border-gray-400 focus:outline-none w-full px-2 py-2 rounded-2xl focus:border-amber-600 focus:ring-1 focus:ring-amber-300"
-                type="text"
+                type="email"
                 name="email"
                 id="email"
                 placeholder="Enter your email address..."
                 onChange={handleChange}
                 value={state.email}
+                required
               />
             </div>
+            <p className="text-red-500">{err.email}</p>
           </div>
 
           <div>
@@ -125,8 +136,10 @@ const SignUp = () => {
                 placeholder="Enter your Mobile number..."
                 onChange={handleChange}
                 value={state.mobile}
+                required
               />
             </div>
+            <p className="text-red-500">{err.mobile}</p>
           </div>
 
           <div>
@@ -142,6 +155,7 @@ const SignUp = () => {
                 placeholder="Enter your Password..."
                 onChange={handleChange}
                 value={state.password}
+                required
               />
               <button
                 className="absolute right-3 top-3 cursor-pointer"
@@ -150,6 +164,7 @@ const SignUp = () => {
                 {showPassword ? <FaRegEyeSlash /> : <FaEye />}
               </button>
             </div>
+            <p className="text-red-500">{err.password}</p>
           </div>
 
           <div>
@@ -181,6 +196,7 @@ const SignUp = () => {
           >
             Sign Up
           </button>
+          <p className="text-green-500">{success.message}</p>
           <button
             className="flex justify-center items-center gap-2 py-1.5 cursor-pointer rounded-[10px] border w-full"
             onClick={handleGoogleAuth}

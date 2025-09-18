@@ -5,6 +5,8 @@ import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 import { reducer, initialValue } from "./SignUpReducer";
 import axios from "axios";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "../firebase";
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -27,12 +29,30 @@ const SignIn = () => {
         { withCredentials: true }
       );
       console.log(fetchData);
-      dispatch({type:"RESET_FORM"})
+      dispatch({ type: "RESET_FORM" });
     } catch (error) {
       console.log(error.response?.data);
     }
   };
 
+  const handleGoogleAuth = async () => {
+    const provider = new GoogleAuthProvider();
+    const result = await signInWithPopup(auth, provider);
+    console.log(result.user);
+    try {
+      const finalData = await axios.post(
+        "http://localhost:8000/api/auth/google-auth",
+        {
+          email: result.user.email,
+        },
+        { withCredentials: true }
+      );
+      console.log(finalData);
+      // console.log(result);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <div className="bg-[rgb(255,255,238)] w-full h-screen flex justify-center items-center p-2">
       <div className="px-3 py-5 font-extralight w-full max-w-md bg-white shadow-2xl rounded-2xl border-gray-100">
@@ -52,12 +72,13 @@ const SignIn = () => {
           <div className="mb-1">
             <input
               className="border border-gray-400 focus:outline-none w-full px-2 py-2 rounded-2xl focus:border-amber-600 focus:ring-1 focus:ring-amber-300"
-              type="text"
+              type="email"
               name="email"
               id="email"
               placeholder="Enter your email address..."
               onChange={handleChange}
               value={state.email}
+              required
             />
           </div>
         </div>
@@ -75,6 +96,7 @@ const SignIn = () => {
               placeholder="Enter your Password..."
               onChange={handleChange}
               value={state.password}
+              required
             />
             <button
               className="absolute right-3 top-3 cursor-pointer"
@@ -84,7 +106,12 @@ const SignIn = () => {
             </button>
           </div>
         </div>
-<p className="text-right font-light cursor-pointer text-gray-500 hover:underline" onClick={()=>navigate('/forgot-password')}>Forgot Password</p>
+        <p
+          className="text-right font-light cursor-pointer text-gray-500 hover:underline"
+          onClick={() => navigate("/forgot-password")}
+        >
+          Forgot Password
+        </p>
         <button
           type="button"
           className="w-full bg-[#ff5100] py-2 rounded-[10px] text-white my-4 cursor-pointer font-medium"
@@ -92,7 +119,10 @@ const SignIn = () => {
         >
           Sign In
         </button>
-        <button className="flex justify-center items-center gap-2 py-1.5 cursor-pointer rounded-[10px] border w-full">
+        <button
+          className="flex justify-center items-center gap-2 py-1.5 cursor-pointer rounded-[10px] border w-full"
+          onClick={handleGoogleAuth}
+        >
           <FcGoogle size={22} />
           Sign In with Google
         </button>
