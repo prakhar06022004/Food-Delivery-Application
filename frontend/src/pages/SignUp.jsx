@@ -38,7 +38,10 @@ const SignUp = () => {
       console.log(fetchData);
       setErr({});
       setSuccess(fetchData.data); // backend se aa raha message
-
+      setTimeout(() => {
+        setSuccess("");
+        navigate("/signin");
+      }, 1500);
       dispatch({ type: "RESET_FORM" });
     } catch (error) {
       setErr(error?.response?.data?.errors || {});
@@ -196,7 +199,9 @@ const SignUp = () => {
           >
             Sign Up
           </button>
-          <p className="text-green-500">{success.message}</p>
+          <p className="text-green-500 text-center text-[16px] font-medium mb-2">
+            {success.message}{" "}
+          </p>
           <button
             className="flex justify-center items-center gap-2 py-1.5 cursor-pointer rounded-[10px] border w-full"
             onClick={handleGoogleAuth}

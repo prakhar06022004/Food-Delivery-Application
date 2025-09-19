@@ -9,6 +9,8 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../firebase";
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [err, setErr] = useState({});
+  const [success, setSuccess] = useState("");
   const navigate = useNavigate();
   const handleChange = (e) => {
     dispatch({
@@ -28,10 +30,15 @@ const SignIn = () => {
         },
         { withCredentials: true }
       );
+      setErr({});
+      setSuccess(fetchData.data);
+      setTimeout(() => {
+        setSuccess("");
+      }, 1500);
       console.log(fetchData);
       dispatch({ type: "RESET_FORM" });
     } catch (error) {
-      console.log(error.response?.data);
+      setErr(error.response?.data?.errors);
     }
   };
 
@@ -50,7 +57,7 @@ const SignIn = () => {
       console.log(finalData);
       // console.log(result);
     } catch (error) {
-      console.log(error.message);
+      setErr(error.response?.data?.errors);
     }
   };
   return (
@@ -81,6 +88,7 @@ const SignIn = () => {
               required
             />
           </div>
+          <p className="text-red-500">{err.email}</p>
         </div>
 
         <div>
@@ -105,6 +113,7 @@ const SignIn = () => {
               {showPassword ? <FaRegEyeSlash /> : <FaEye />}
             </button>
           </div>
+          <p className="text-red-500">{err.password}</p>
         </div>
         <p
           className="text-right font-light cursor-pointer text-gray-500 hover:underline"
@@ -119,6 +128,9 @@ const SignIn = () => {
         >
           Sign In
         </button>
+        <p className="text-green-500 text-center text-[16px] font-medium mb-2">
+          {success.message}{" "}
+        </p>
         <button
           className="flex justify-center items-center gap-2 py-1.5 cursor-pointer rounded-[10px] border w-full"
           onClick={handleGoogleAuth}

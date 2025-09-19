@@ -10,8 +10,8 @@ const ForgotPassword = () => {
   const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
-
+  const [err, setError] = useState({});
+  const [success, setSuccess] = useState("");
   const handleSendOtp = async () => {
     // console.log("Email entered:", email)
     try {
@@ -23,7 +23,7 @@ const ForgotPassword = () => {
       console.log(fetchResult.data);
       setStep(2);
     } catch (err) {
-      setError(err.response?.data?.message || err.message);
+      setError(err?.response?.data?.errors);
     }
   };
 
@@ -37,7 +37,7 @@ const ForgotPassword = () => {
       console.log(fetchResult);
       setStep(3);
     } catch (err) {
-      setError(err.response?.data?.message || "Something went wrong!");
+      setError(err?.response?.data?.errors);
     }
   };
 
@@ -57,9 +57,13 @@ const ForgotPassword = () => {
         { withCredentials: true }
       );
       console.log(fetchResult);
-      navigate("/signin");
+      setSuccess(fetchResult.data);
+      setTimeout(() => {
+        setSuccess("");
+        navigate("/signin");
+      }, 1500);
     } catch (err) {
-      setError(err.response?.data?.message || "Something went wrong!");
+      setError(err?.response?.data?.errors);
     }
   };
 
@@ -81,7 +85,7 @@ const ForgotPassword = () => {
             <div className="mt-5">
               <input
                 className="border border-gray-400 focus:outline-none w-full px-2 py-2 rounded-2xl focus:border-amber-600 focus:ring-1 focus:ring-amber-300"
-                type="text"
+                type="email"
                 name="email"
                 id="email"
                 placeholder="Enter your email address..."
@@ -89,6 +93,7 @@ const ForgotPassword = () => {
                 value={email}
               />
             </div>
+            <p className="text-red-500 ">{err?.email}</p>
             <Link to="/signin">
               <p className="text-[#444444d1] text-center mt-2 cursor-pointer">
                 Back to Sign in
@@ -103,7 +108,10 @@ const ForgotPassword = () => {
             <h1 className="text-center text-[#444444d1] my-2">
               Do you have an account?
             </h1>
-            <button className="w-full rounded-3xl border-2 text-[#4444449c] text-[18px] font-semibold py-2.5 mt-5 cursor-pointer">
+            <button
+              className="w-full rounded-3xl border-2 text-[#4444449c] text-[18px] font-semibold py-2.5 mt-5 cursor-pointer"
+              onClick={() => navigate("/signup")}
+            >
               Sign up
             </button>
           </>
@@ -126,6 +134,8 @@ const ForgotPassword = () => {
                 value={otp}
               />
             </div>
+            <p className="text-red-500 ">{err?.verifyOtp}</p>
+
             <Link to="/signin">
               <p className="text-[#444444d1] text-center mt-2 cursor-pointer">
                 Back to Sign in
@@ -165,12 +175,17 @@ const ForgotPassword = () => {
                 value={confirmPassword}
               />
             </div>
-            {error && <p className="text-red-500 mt-2">{error}</p>}{" "}
+            <p className="text-red-500">{err.otp}</p>
+            {/* <p className="text-red-500 mt-2">{err.general}</p> */}
             <Link to="/signin">
               <p className="text-[#444444d1] text-center mt-2 cursor-pointer">
                 Back to Sign in
               </p>
             </Link>
+
+          <p className="text-green-500 text-center text-[16px] font-medium mb-2">
+            {success.message}{" "}
+          </p>
             <button
               className="w-full rounded-3xl border bg-gradient-to-r from-[#FF4B1F] to-[#FF9068] text-white text-[18px] font-semibold py-2.5 mt-5 cursor-pointer"
               onClick={handleResetPassword}
