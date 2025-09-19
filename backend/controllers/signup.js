@@ -3,9 +3,9 @@ import bcrypt from "bcryptjs";
 import generateToken from "../utils/jwtToken.js";
 import { sendMail } from "../utils/nodeMailer.js";
 export const signUp = async (req, res) => {
+    // console.log("SignUp API hit hua ✅", req.body);
   try {
     const { fullName, email, password, mobile, role } = req.body;
-
     let user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({
@@ -41,7 +41,7 @@ export const signUp = async (req, res) => {
     const token = await generateToken(user._id);
     res.cookie("token", token, {
       secure: false,
-      sameSite: "strict",
+      sameSite: "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
@@ -79,7 +79,7 @@ export const signIn = async (req, res) => {
     const token = await generateToken(user._id);
     res.cookie("token", token, {
       secure: false,
-      sameSite: "strict",
+      sameSite: "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
@@ -150,7 +150,7 @@ export const verifyingOtp = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       errors: {
-        otp: "Verify Otp Error" + error.message,
+        general: "Verify Otp Error" + error.message,
       },
     });
   }
@@ -193,7 +193,7 @@ export const googleAuth = async (req, res) => {
     const token = await generateToken(user._id);
     res.cookie("token", token, {
       secure: false,
-      sameSite: "strict",
+      sameSite: "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true,
     });

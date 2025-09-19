@@ -7,12 +7,17 @@ import { reducer, initialValue } from "./SignUpReducer";
 import { auth } from "../firebase.js";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import axios from "axios";
+// import { ClipLoader } from "react-spinners";
+import HashLoader from "react-spinners/HashLoader";
+
+
 const SignUp = () => {
   const [showRole, setShowRole] = useState("user");
   const [showPassword, setShowPassword] = useState(false);
   const roles = ["user", "owner", "deliveryBoy"];
   const [err, setErr] = useState({});
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const handleChange = (e) => {
     dispatch({
@@ -23,6 +28,7 @@ const SignUp = () => {
   };
   const [state, dispatch] = useReducer(reducer, initialValue);
   const fetching = async () => {
+    setLoading(true);
     try {
       const fetchData = await axios.post(
         "http://localhost:8000/api/auth/signup",
@@ -36,6 +42,7 @@ const SignUp = () => {
         { withCredentials: true }
       );
       console.log(fetchData);
+      setLoading(false);
       setErr({});
       setSuccess(fetchData.data); // backend se aa raha message
       setTimeout(() => {
@@ -46,6 +53,7 @@ const SignUp = () => {
     } catch (error) {
       setErr(error?.response?.data?.errors || {});
       setSuccess("");
+      setLoading(false);
     }
   };
 
@@ -58,6 +66,8 @@ const SignUp = () => {
     const provider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, provider);
     console.log(result.user);
+    setLoading(true);
+
     try {
       const finalData = await axios.post(
         "http://localhost:8000/api/auth/google-auth",
@@ -69,12 +79,15 @@ const SignUp = () => {
         },
         { withCredentials: true }
       );
+      setLoading(false);
+
       console.log(finalData);
       // console.log(result);
       setErr({});
     } catch (error) {
       setErr(error?.response?.data?.errors || {});
       setSuccess("");
+      setLoading(false);
     }
   };
   return (
@@ -197,7 +210,7 @@ const SignUp = () => {
             className="w-full bg-[#ff5100] py-2 rounded-[10px] text-white my-4 cursor-pointer font-medium"
             onClick={fetching}
           >
-            Sign Up
+            {loading ? <HashLoader color="#f59e0b" size={25} /> : "Sign Up"}
           </button>
           <p className="text-green-500 text-center text-[16px] font-medium mb-2">
             {success.message}{" "}

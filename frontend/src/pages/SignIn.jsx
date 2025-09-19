@@ -7,11 +7,16 @@ import { reducer, initialValue } from "./SignUpReducer";
 import axios from "axios";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../firebase";
+// import { ClipLoader } from "react-spinners";
+import HashLoader from "react-spinners/HashLoader";
+
+
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [err, setErr] = useState({});
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const handleChange = (e) => {
     dispatch({
       type: "SET_FIELD",
@@ -21,6 +26,7 @@ const SignIn = () => {
   };
   const [state, dispatch] = useReducer(reducer, initialValue);
   const fetching = async () => {
+    setLoading(true);
     try {
       const fetchData = await axios.post(
         "http://localhost:8000/api/auth/signin",
@@ -30,6 +36,8 @@ const SignIn = () => {
         },
         { withCredentials: true }
       );
+      setLoading(false);
+
       setErr({});
       setSuccess(fetchData.data);
       setTimeout(() => {
@@ -39,6 +47,7 @@ const SignIn = () => {
       dispatch({ type: "RESET_FORM" });
     } catch (error) {
       setErr(error.response?.data?.errors);
+      setLoading(false);
     }
   };
 
@@ -46,6 +55,8 @@ const SignIn = () => {
     const provider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, provider);
     console.log(result.user);
+    setLoading(true);
+
     try {
       const finalData = await axios.post(
         "http://localhost:8000/api/auth/google-auth",
@@ -55,9 +66,12 @@ const SignIn = () => {
         { withCredentials: true }
       );
       console.log(finalData);
+      setLoading(false);
+
       // console.log(result);
     } catch (error) {
       setErr(error.response?.data?.errors);
+      setLoading(false);
     }
   };
   return (
@@ -126,7 +140,7 @@ const SignIn = () => {
           className="w-full bg-[#ff5100] py-2 rounded-[10px] text-white my-4 cursor-pointer font-medium"
           onClick={fetching}
         >
-          Sign In
+          {loading ? <HashLoader color="#f59e0b" size={25}/> : "Sign In"}
         </button>
         <p className="text-green-500 text-center text-[16px] font-medium mb-2">
           {success.message}{" "}

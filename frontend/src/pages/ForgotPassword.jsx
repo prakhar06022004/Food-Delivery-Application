@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import HashLoader from "react-spinners/HashLoader";
 const ForgotPassword = () => {
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
@@ -12,7 +13,10 @@ const ForgotPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [err, setError] = useState({});
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const handleSendOtp = async () => {
+    setLoading(true);
     // console.log("Email entered:", email)
     try {
       const fetchResult = await axios.post(
@@ -21,13 +25,18 @@ const ForgotPassword = () => {
         { withCredentials: true }
       );
       console.log(fetchResult.data);
+      setLoading(false);
+
       setStep(2);
     } catch (err) {
       setError(err?.response?.data?.errors);
+      setLoading(false);
     }
   };
 
   const handleVerifyOtp = async () => {
+    setLoading(true);
+
     try {
       const fetchResult = await axios.post(
         "http://localhost:8000/api/auth/verifying-otp",
@@ -35,9 +44,12 @@ const ForgotPassword = () => {
         { withCredentials: true }
       );
       console.log(fetchResult);
+      setLoading(false);
+
       setStep(3);
     } catch (err) {
       setError(err?.response?.data?.errors);
+      setLoading(false);
     }
   };
 
@@ -50,12 +62,16 @@ const ForgotPassword = () => {
       setError("Password did not match!");
       return;
     }
+    setLoading(true);
+
     try {
       const fetchResult = await axios.post(
         "http://localhost:8000/api/auth/reset-password",
         { email, newPassword },
         { withCredentials: true }
       );
+      setLoading(false);
+
       console.log(fetchResult);
       setSuccess(fetchResult.data);
       setTimeout(() => {
@@ -64,6 +80,7 @@ const ForgotPassword = () => {
       }, 1500);
     } catch (err) {
       setError(err?.response?.data?.errors);
+      setLoading(false);
     }
   };
 
@@ -103,7 +120,7 @@ const ForgotPassword = () => {
               className="w-full rounded-3xl border bg-gradient-to-r from-[#FF4B1F] to-[#FF9068] text-white text-[18px] font-semibold py-2.5 mt-5 cursor-pointer"
               onClick={handleSendOtp}
             >
-              Send Otp
+              {loading ? <HashLoader color="#f59e0b" size={25} /> : "Send Otp"}
             </button>
             <h1 className="text-center text-[#444444d1] my-2">
               Do you have an account?
@@ -145,7 +162,7 @@ const ForgotPassword = () => {
               className="w-full rounded-3xl border bg-gradient-to-r from-[#FF4B1F] to-[#FF9068] text-white text-[18px] font-semibold py-2.5 mt-5 cursor-pointer"
               onClick={handleVerifyOtp}
             >
-              Verify
+              {loading ? <HashLoader color="#f59e0b" size={25} /> : " Verify "}
             </button>
           </>
         )}
@@ -175,7 +192,7 @@ const ForgotPassword = () => {
                 value={confirmPassword}
               />
             </div>
-            <p className="text-red-500">{err.otp}</p>
+            <p className="text-red-500">{err}</p>
             {/* <p className="text-red-500 mt-2">{err.general}</p> */}
             <Link to="/signin">
               <p className="text-[#444444d1] text-center mt-2 cursor-pointer">
@@ -183,14 +200,14 @@ const ForgotPassword = () => {
               </p>
             </Link>
 
-          <p className="text-green-500 text-center text-[16px] font-medium mb-2">
-            {success.message}{" "}
-          </p>
+            <p className="text-green-500 text-center text-[16px] font-medium mb-2">
+              {success.message}{" "}
+            </p>
             <button
               className="w-full rounded-3xl border bg-gradient-to-r from-[#FF4B1F] to-[#FF9068] text-white text-[18px] font-semibold py-2.5 mt-5 cursor-pointer"
               onClick={handleResetPassword}
             >
-              Reset
+              {loading ? <HashLoader color="#f59e0b" size={25} /> : " Reset "}
             </button>
           </>
         )}
