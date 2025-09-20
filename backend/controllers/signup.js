@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import generateToken from "../utils/jwtToken.js";
 import { sendMail } from "../utils/nodeMailer.js";
 export const signUp = async (req, res) => {
-    // console.log("SignUp API hit hua ✅", req.body);
+  // console.log("SignUp API hit hua ✅", req.body);
   try {
     const { fullName, email, password, mobile, role } = req.body;
     let user = await User.findOne({ email });
@@ -41,7 +41,7 @@ export const signUp = async (req, res) => {
     const token = await generateToken(user._id);
     res.cookie("token", token, {
       secure: false,
-      sameSite: "lax",
+      sameSite: "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
@@ -79,7 +79,7 @@ export const signIn = async (req, res) => {
     const token = await generateToken(user._id);
     res.cookie("token", token, {
       secure: false,
-      sameSite: "lax",
+      sameSite: "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
@@ -112,10 +112,10 @@ export const sendOtp = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({
-      errors: {
-        email: "Email does not exist",
-      },
-    });
+        errors: {
+          email: "Email does not exist",
+        },
+      });
     }
     const otp = Math.floor(1000 + Math.random() * 9000).toString();
     user.resetOtp = otp;
@@ -138,9 +138,11 @@ export const verifyingOtp = async (req, res) => {
     const { email, otp } = req.body;
     const user = await User.findOne({ email });
     if (!user || user.resetOtp !== otp || user.expireOtp < Date.now()) {
-      return res.status(400).json({ errors:{
-        verifyOtp: "Invalid / Expired Otp"
-      } });
+      return res.status(400).json({
+        errors: {
+          verifyOtp: "Invalid / Expired Otp",
+        },
+      });
     }
     user.isOtpVerified = true;
     user.expireOtp = undefined;
@@ -193,7 +195,7 @@ export const googleAuth = async (req, res) => {
     const token = await generateToken(user._id);
     res.cookie("token", token, {
       secure: false,
-      sameSite: "lax",
+      sameSite: "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true,
     });

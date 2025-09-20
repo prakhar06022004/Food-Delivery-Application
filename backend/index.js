@@ -15,7 +15,7 @@ app.use(
   })
 );
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// app.use(express.urlencoded({ extended: true })); //for normal html files and react form
 app.use(cookieParser());
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
