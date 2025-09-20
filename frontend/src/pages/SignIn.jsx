@@ -7,16 +7,18 @@ import { reducer, initialValue } from "./SignUpReducer";
 import axios from "axios";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../firebase";
+import { useDispatch } from "react-redux";
 // import { ClipLoader } from "react-spinners";
 import HashLoader from "react-spinners/HashLoader";
-
-
+import { setUserData } from "../../redux/userSlice";
+ 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [err, setErr] = useState({});
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+   const dispatchRedux = useDispatch();
   const handleChange = (e) => {
     dispatch({
       type: "SET_FIELD",
@@ -36,6 +38,7 @@ const SignIn = () => {
         },
         { withCredentials: true }
       );
+      dispatchRedux(setUserData(fetchData.data));
       setLoading(false);
 
       setErr({});
@@ -67,6 +70,7 @@ const SignIn = () => {
       );
       console.log(finalData);
       setLoading(false);
+      dispatchRedux(setUserData(finalData.data));
 
       // console.log(result);
     } catch (error) {
@@ -140,7 +144,7 @@ const SignIn = () => {
           className="w-full bg-[#ff5100] py-2 rounded-[10px] text-white my-4 cursor-pointer font-medium"
           onClick={fetching}
         >
-          {loading ? <HashLoader color="#f59e0b" size={25}/> : "Sign In"}
+          {loading ? <HashLoader color="#f59e0b" size={25} /> : "Sign In"}
         </button>
         <p className="text-green-500 text-center text-[16px] font-medium mb-2">
           {success.message}{" "}

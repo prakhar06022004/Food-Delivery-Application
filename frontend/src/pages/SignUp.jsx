@@ -7,8 +7,10 @@ import { reducer, initialValue } from "./SignUpReducer";
 import { auth } from "../firebase.js";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import axios from "axios";
+import { useDispatch } from "react-redux";
 // import { ClipLoader } from "react-spinners";
 import HashLoader from "react-spinners/HashLoader";
+import { setUserData } from "../../redux/userSlice.js";
 
 
 const SignUp = () => {
@@ -27,6 +29,7 @@ const SignUp = () => {
     });
   };
   const [state, dispatch] = useReducer(reducer, initialValue);
+  const dispatchRedux = useDispatch();
   const fetching = async () => {
     setLoading(true);
     try {
@@ -41,7 +44,8 @@ const SignUp = () => {
         },
         { withCredentials: true }
       );
-      console.log(fetchData);
+      dispatchRedux(setUserData(fetchData.data))
+      // console.log(fetchData);
       setLoading(false);
       setErr({});
       setSuccess(fetchData.data); // backend se aa raha message
@@ -79,6 +83,8 @@ const SignUp = () => {
         },
         { withCredentials: true }
       );
+            dispatchRedux(setUserData(finalData.data))
+
       setLoading(false);
 
       console.log(finalData);
