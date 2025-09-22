@@ -46,6 +46,7 @@ const SignUp = () => {
       );
       dispatchRedux(setUserData(fetchData.data))
       // console.log(fetchData);
+      navigate("/")
       setLoading(false);
       setErr({});
       setSuccess(fetchData.data); // backend se aa raha message
@@ -84,7 +85,7 @@ const SignUp = () => {
         { withCredentials: true }
       );
             dispatchRedux(setUserData(finalData.data))
-
+// navigate("/");
       setLoading(false);
 
       console.log(finalData);

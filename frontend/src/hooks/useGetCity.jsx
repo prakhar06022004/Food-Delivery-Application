@@ -1,15 +1,17 @@
 import { useEffect } from "react";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCity, setUserData } from "../../redux/userSlice";
 function UseGetCity() {
   const dispatchRedux = useDispatch();
+  const {userData} = useSelector(state=>state.user)
   const geoApiKey = import.meta.env.VITE_GEO_API_KEY;
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(async (posi) => {
       console.log(posi);
       const latitude = posi.coords.latitude;
       const longitude = posi.coords.longitude;
+      // console.log(position.coords.accuracy);
       const result = await axios.get(
         `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&format=json&apiKey=${geoApiKey}`
       );
@@ -17,6 +19,6 @@ function UseGetCity() {
 
       // console.log(result);
     });
-  }, []);
+  }, [userData]);
 }
 export default UseGetCity;

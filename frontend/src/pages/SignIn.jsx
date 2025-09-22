@@ -11,14 +11,14 @@ import { useDispatch } from "react-redux";
 // import { ClipLoader } from "react-spinners";
 import HashLoader from "react-spinners/HashLoader";
 import { setUserData } from "../../redux/userSlice";
- 
+
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [err, setErr] = useState({});
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-   const dispatchRedux = useDispatch();
+  const dispatchRedux = useDispatch();
   const handleChange = (e) => {
     dispatch({
       type: "SET_FIELD",
@@ -38,7 +38,8 @@ const SignIn = () => {
         },
         { withCredentials: true }
       );
-      dispatchRedux(setUserData(fetchData.data));
+      dispatchRedux(setUserData(fetchData.data.user));
+       navigate("/");
       setLoading(false);
 
       setErr({});
@@ -46,7 +47,7 @@ const SignIn = () => {
       setTimeout(() => {
         setSuccess("");
       }, 1500);
-      console.log(fetchData);
+      // console.log(fetchData);
       dispatch({ type: "RESET_FORM" });
     } catch (error) {
       setErr(error.response?.data?.errors);
@@ -68,9 +69,11 @@ const SignIn = () => {
         },
         { withCredentials: true }
       );
-      console.log(finalData);
+
+      // console.log(finalData);
       setLoading(false);
-      dispatchRedux(setUserData(finalData.data));
+      dispatchRedux(setUserData(finalData.data.user));
+       navigate("/")
 
       // console.log(result);
     } catch (error) {
