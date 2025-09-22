@@ -5,9 +5,11 @@ import ForgotPassword from "./pages/ForgotPassword";
 import useGetCurrentUser from "./hooks/userCurrentCustomHook";
 import { useSelector } from "react-redux";
 import Home from "./pages/Home";
+import UseGetCity from "./hooks/useGetCity";
 const App = () => {
   const {userData} = useSelector(state=>state.user)
   useGetCurrentUser()
+  UseGetCity()
   return (
     <Routes>
       <Route path="/signup" element={!userData ? <SignUp />: <Navigate to={'/'}/>} />

@@ -131,7 +131,7 @@ const SignIn = () => {
               {showPassword ? <FaRegEyeSlash /> : <FaEye />}
             </button>
           </div>
-          <p className="text-red-500">{err.password}</p>
+          <p className="text-red-500">{err?.general}</p>
         </div>
         <p
           className="text-right font-light cursor-pointer text-gray-500 hover:underline"

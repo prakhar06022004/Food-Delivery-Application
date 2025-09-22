@@ -51,7 +51,7 @@ const SignUp = () => {
       setSuccess(fetchData.data); // backend se aa raha message
       setTimeout(() => {
         setSuccess("");
-        navigate("/signin");
+        // navigate("/signin");
       }, 1500);
       dispatch({ type: "RESET_FORM" });
     } catch (error) {

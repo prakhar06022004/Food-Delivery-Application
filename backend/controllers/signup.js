@@ -71,7 +71,7 @@ export const signIn = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({
         errors: {
-          password: "Incorrect Password",
+          general: "Incorrect Password",
         },
       });
     }
