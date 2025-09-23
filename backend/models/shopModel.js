@@ -26,10 +26,16 @@ const shopSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    items: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Item",
+      },
+    ],
   },
 
   { timestamps: true }
 );
 
-const Owner = mongoose.Model("Owner", shopSchema);
-export default Owner;
+const Shop = mongoose.Model("Shop", shopSchema);
+export default Shop;
