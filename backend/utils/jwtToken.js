@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 
-const generateToken = async(userId) => {
+const generateToken = (userId) => {
     try {
-    const token = await jwt.sign({userId},process.env.SECRET_KEY,{expiresIn:"7d"});
+    const token = jwt.sign({userId},process.env.SECRET_KEY,{expiresIn:"7d"});
     return token
     } catch (error) {
         console.log(`Your error is: ${error.message}`);

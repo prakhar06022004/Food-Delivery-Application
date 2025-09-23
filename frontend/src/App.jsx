@@ -11,9 +11,7 @@ const App = () => {
   const { userData } = useSelector((state) => state.user);
   // useGetCurrentUser();
   const loading = useGetCurrentUser();
-
   UseGetCity();
-
   if (loading) {
     return (
       <div className="w-screen h-screen flex justify-center items-center">
@@ -21,26 +19,26 @@ const App = () => {
       </div>
     );
   }
-  return (<>
-    {userData && <Navbar />}
-    <Routes>
-      <Route
-        path="/signup"
-        element={!userData ? <SignUp /> : <Navigate to={"/"} />}
-      />
-      <Route
-        path="/signin"
-        element={!userData ? <SignIn /> : <Navigate to={"/"} />}
-      />
-      <Route
-        path="/forgot-password"
-        element={!userData ? <ForgotPassword /> : <Navigate to={"/"} />}
-      />
-      <Route
-        path="/"
-        element={!userData ? <Navigate to={"/signin"} /> : <Home />}
-      />
-    </Routes>
+  return (
+    <>
+      <Routes>
+        <Route
+          path="/signup"
+          element={!userData ? <SignUp /> : <Navigate to={"/"} />}
+        />
+        <Route
+          path="/signin"
+          element={!userData ? <SignIn /> : <Navigate to={"/"} />}
+        />
+        <Route
+          path="/forgot-password"
+          element={!userData ? <ForgotPassword /> : <Navigate to={"/"} />}
+        />
+        <Route
+          path="/"
+          element={userData ? <Home /> : <Navigate to={"/signin"} />}
+        />
+      </Routes>
     </>
   );
 };

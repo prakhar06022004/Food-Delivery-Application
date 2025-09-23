@@ -12,7 +12,6 @@ import { useDispatch } from "react-redux";
 import HashLoader from "react-spinners/HashLoader";
 import { setUserData } from "../../redux/userSlice.js";
 
-
 const SignUp = () => {
   const [showRole, setShowRole] = useState("user");
   const [showPassword, setShowPassword] = useState(false);
@@ -44,12 +43,12 @@ const SignUp = () => {
         },
         { withCredentials: true }
       );
-      dispatchRedux(setUserData(fetchData.data))
+      dispatchRedux(setUserData(fetchData.data.user));
       // console.log(fetchData);
-      navigate("/")
+      navigate("/");
       setLoading(false);
       setErr({});
-      setSuccess(fetchData.data); // backend se aa raha message
+      setSuccess(fetchData.data.message); // backend se aa raha message
       setTimeout(() => {
         setSuccess("");
         // navigate("/signin");
@@ -84,8 +83,8 @@ const SignUp = () => {
         },
         { withCredentials: true }
       );
-            dispatchRedux(setUserData(finalData.data))
-// navigate("/");
+      dispatchRedux(setUserData(finalData.data));
+      // navigate("/");
       setLoading(false);
 
       console.log(finalData);
