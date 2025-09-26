@@ -121,13 +121,10 @@ const Navbar = () => {
               </span>
             </span>
 
-            {/* Icon without badge (for desktop) */}
-            <span className="hidden sm:inline">
-              <CiReceipt size={25} />
-            </span>
-
-            {/* Pending Orders text with badge (only desktop) */}
-            <span className="relative hidden sm:inline">
+            <span className="relative hidden sm:flex">
+              <span className="hidden sm:inline">
+                <CiReceipt size={25} />
+              </span>
               Pending Orders
               <span className="absolute -top-2 -right-3 text-xs bg-amber-600 text-white rounded-full px-1">
                 0

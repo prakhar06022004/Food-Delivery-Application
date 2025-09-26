@@ -39,3 +39,14 @@ export const createEditShop = async (req, res) => {
   }
 };
 
+export const getMyShop = async (req, res) => {
+  try {
+    const shop = Shop.findOne({ owner: req.userId }).populate("owner items");
+    if (!shop) {
+      return null;
+    }
+    return res.status(200).json(shop);
+  } catch (error) {
+    return res.status(500).json({ errors: { general: error } });
+  }
+};
