@@ -6,7 +6,6 @@ import useGetCurrentUser from "./hooks/userCurrentCustomHook";
 import { useSelector } from "react-redux";
 import Home from "./pages/Home";
 import UseGetCity from "./hooks/useGetCity";
-import Navbar from "./components/Navbar";
 const App = () => {
   const { userData } = useSelector((state) => state.user);
   // useGetCurrentUser();

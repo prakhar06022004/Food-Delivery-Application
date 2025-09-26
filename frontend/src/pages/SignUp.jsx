@@ -43,7 +43,7 @@ const SignUp = () => {
         },
         { withCredentials: true }
       );
-      dispatchRedux(setUserData(fetchData.data.user));
+      dispatchRedux(setUserData(fetchData?.data?.user));
       // console.log(fetchData);
       navigate("/");
       setLoading(false);
