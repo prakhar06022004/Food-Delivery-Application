@@ -6,11 +6,13 @@ import useGetCurrentUser from "./hooks/userCurrentCustomHook";
 import { useSelector } from "react-redux";
 import Home from "./pages/Home";
 import UseGetCity from "./hooks/useGetCity";
+import useGetMyShop from "./hooks/useGetMyShop";
 const App = () => {
   const { userData } = useSelector((state) => state.user);
   // useGetCurrentUser();
   const loading = useGetCurrentUser();
   UseGetCity();
+  useGetMyShop();
   if (loading) {
     return (
       <div className="w-screen h-screen flex justify-center items-center">

@@ -10,11 +10,11 @@ import { FaPlus } from "react-icons/fa6";
 import { CiReceipt } from "react-icons/ci";
 
 const Navbar = () => {
+  const { shopData } = useSelector((state) => state.shop);
   const { userData, city } = useSelector((state) => state.user);
   const [popup, setPopup] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const dispatchRedux = useDispatch();
-
   const handleLogOut = () => {
     dispatchRedux(setUserData(null));
   };
@@ -88,7 +88,7 @@ const Navbar = () => {
             />
           ))}
 
-        {userData.role === "owner" && (
+        {userData.role === "owner" && shopData && (
           <>
             <button className="hidden sm:flex justify-center items-center bg-amber-600/10 py-1.5 px-2 rounded-3xl gap-1.5 text-amber-600 cursor-pointer">
               <FaPlus size={20} />

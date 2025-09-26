@@ -1,7 +1,7 @@
 import express from "express";
-import isAuth from "../middlewares/isAuth";
-import { addItem, editItem } from "../controllers/item";
-import { upload } from "../middlewares/multer";
+import isAuth from "../middlewares/isAuth.js";
+import { addItem, editItem } from "../controllers/item.js";
+import { upload } from "../middlewares/multer.js";
 const itemRouter = express.Router();
 
 itemRouter.post("/add-item", isAuth, upload.single("image"), addItem);
