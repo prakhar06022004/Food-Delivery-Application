@@ -8,10 +8,10 @@ const OwnerDashboard = () => {
   const navigate = useNavigate()
   const { shopData } = useSelector((state) => state.shop);
   return (
-    <div className="w-full min-h-screen flex flex-col items-center">
+    <div className="w-full min-h-screen flex flex-col items-center px-3">
       <Navbar />
-      {!shopData && (
-        <div className="flex items-center justify-center p-4 sm:p-6 mt-15">
+      {/* {!shopData && ( */}
+        <div className="flex items-center justify-center p-4 sm:p-6 mt-[5rem]">
           <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 border border-gray-100 hover:shadow-xl transition-shadow duration-300">
             <div className="flex flex-col items-center text-center">
               <img
@@ -40,7 +40,7 @@ const OwnerDashboard = () => {
             </div>
           </div>
         </div>
-      )}
+      {/* )} */}
     </div>
   );
 };

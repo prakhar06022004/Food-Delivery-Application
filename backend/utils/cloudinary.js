@@ -10,11 +10,16 @@ const uploadOnCloudinary = async (imgFile) => {
   });
   try {
     const resultImg = await cloudinary.uploader.upload(imgFile);
-    fs.unlinkSync(imgFile);
+    if (fs.existsSync(imgFile)) {
+      fs.unlinkSync(imgFile);
+    }
     return resultImg.secure_url;
   } catch (error) {
-    fs.unlinkSync(imgFile);
-    console.log(error);
+ if (fs.existsSync(imgFile)) {
+      fs.unlinkSync(imgFile);
+    }
+        // throw error; // re-throw to catch in controller
+
   }
 };
 
