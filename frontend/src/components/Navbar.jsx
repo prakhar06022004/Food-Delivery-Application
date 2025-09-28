@@ -141,7 +141,7 @@ const Navbar = () => {
         </div>
 
         {popup && (
-          <div className="fixed right-[3%] top-[10%] md:right-[5%] md:top-[10%] lg:right-[20%] shadow-lg flex flex-col gap-5 px-3 py-5 items-center">
+          <div className="fixed right-[3%] top-[10%] md:right-[5%] md:top-[10%] lg:right-[20%] shadow-lg flex flex-col gap-5 px-3 py-5 items-center bg-white">
             <div className="cursor-pointer font-medium">
               {userData.fullName}
             </div>

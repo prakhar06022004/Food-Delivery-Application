@@ -4,6 +4,7 @@ import { RiRestaurantFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { setShopData } from "../../redux/shopSlice";
+import {HashLoader} from "react-spinners"
 import axios from "axios";
 const CreateEditShop = () => {
   const { shopData } = useSelector((state) => state.shop);
@@ -16,6 +17,7 @@ const CreateEditShop = () => {
   const [address, setAddress] = useState(shopData?.address || "");
   const [frontendImg, setFrontendImg] = useState(shopData?.image || null);
   const [backendImg, setBackendImg] = useState(null);
+  const [loading, setLoading] = useState(false);
   const handleImage = (e) => {
     const file = e.target.files[0];
     console.log(file);
@@ -25,6 +27,7 @@ const CreateEditShop = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const formData = new FormData();
       formData.append("name", name);
@@ -43,6 +46,8 @@ const CreateEditShop = () => {
         }
       );
       dispatchRedux(setShopData(res.data));
+      navigate("/");
+      setLoading(false)
     } catch (error) {
       console.log(error.message);
     }
@@ -135,9 +140,19 @@ const CreateEditShop = () => {
               className="w-full p-2 border-2 border-amber-300 rounded-[5px] outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-300"
             />
           </div>
-          <button className="w-full bg-amber-500 p-2 text-white rounded-[7px] mt-4 cursor-pointer">
+            {loading ?  <button
+            type="submit"
+            className="w-full bg-amber-500 p-2 text-white rounded-[7px] mt-4 cursor-pointer flex justify-center items-center"
+          >
+            <HashLoader size={24} color="#fff"/>
+          </button> : <button
+            type="submit"
+            className="w-full bg-amber-500 p-2 text-white rounded-[7px] mt-4 cursor-pointer"
+          >
             Save
-          </button>
+          </button>}
+         
+
         </form>
       </div>
     </div>
