@@ -46,8 +46,10 @@ const CreateEditShop = () => {
         }
       );
       dispatchRedux(setShopData(res.data));
+       setTimeout(() => {
       navigate("/");
-      setLoading(false)
+      setLoading(false);
+    }, 2000);
     } catch (error) {
       console.log(error.message);
     }
