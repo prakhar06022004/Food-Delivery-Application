@@ -50,8 +50,8 @@ const OwnerDashboard = () => {
 
         {shopData && (
           <div className="w-full px-2 flex flex-col items-center gap-5">
-            <h2 className="text-[20px] sm:text-3xl font-bold flex items-center justify-center gap-2 text-gray-800 text-center">
-              <RiRestaurantFill className="hidden sm:block sm:w-[35px] h-[35px] text-amber-600" />
+            <h2 className="text-[20px] sm:text-3xl font-bold flex items-center justify-center gap-2 text-gray-800 text-center mt-5 shadow-md p-4 box-border">
+              <RiRestaurantFill className="hidden sm:block sm:w-[35px] h-[35px] text-amber-600 " />
               WELCOME TO {shopData.name} BAKERY
             </h2>
             <div className="w-[90%] md:w-full max-w-2xl shadow-lg hover:shadow-xl duration-150 rounded-2xl overflow-hidden relative">
@@ -82,7 +82,7 @@ const OwnerDashboard = () => {
         )}
 
         {shopData && shopData.items.length === 0 && (
-          <div className="flex items-center justify-center p-4 sm:p-6 w-full mt-10">
+          <div className="flex items-center justify-center p-4 sm:p-6 w-full mt-5">
             <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 border border-gray-100 hover:shadow-xl transition-shadow duration-300">
               <div className="flex flex-col items-center text-center">
                 <FaKitchenSet size={40} className="text-amber-600" />
@@ -94,7 +94,7 @@ const OwnerDashboard = () => {
                   <MdArrowRight className="text-amber-500 text-4xl" />
                   <button
                     className="bg-amber-500 rounded-full px-4 py-2 text-white font-medium hover:bg-amber-600 duration-200"
-                    onClick={() => navigate("/add-items")}
+                    onClick={() => navigate("/add-item-shop")}
                   >
                     Add Items
                   </button>
