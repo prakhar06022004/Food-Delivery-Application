@@ -2,7 +2,7 @@ import Item from "../models/items.model.js";
 import Shop from "../models/shopModel.js";
 import uploadOnCloudinary from "../utils/cloudinary.js";
 
-export const addItem = async () => {
+export const addItem = async (req,res) => {
   try {
     const { name, foodType, category, price } = req.body;
     let image;
@@ -21,7 +21,7 @@ export const addItem = async () => {
       image,
       shop: shop._id,
     });
-    return res.status(201).json(item);
+    return res.status(201).json(shop);
   } catch (error) {
     return res
       .status(500)

@@ -44,24 +44,28 @@ const AddItem = () => {
     try {
       const formData = new FormData();
       formData.append("name", name);
+      formData.append("category", category);
+      formData.append("price", price);
+      formData.append("foodType", foodType);
+
       if (backendImg) {
         formData.append("image", backendImg);
       }
       const res = await axios.post(
-        "http://localhost:8000/api/shop/add-item",
+        "http://localhost:8000/api/item/add-item",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
           withCredentials: true, // agar auth cookie chahiye
-        }
+        } 
       );
       dispatchRedux(setShopData(res.data));
       setTimeout(() => {
         navigate("/");
         setLoading(false);
-      }, 2000);
+      }, 1000);
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
     }
   };
   return (
@@ -127,7 +131,7 @@ const AddItem = () => {
               value={category || ""}
               className="w-full p-2 border-2 border-amber-300 rounded-[5px] outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-300 text-gray-900"
             >
-              <option value="cate" disabled>
+              <option value={cate} disabled>
                 SELECT CATEGORY
               </option>
               {cate.map((category, index) => {
@@ -143,7 +147,7 @@ const AddItem = () => {
               className="w-full p-2 border-2 border-amber-300 rounded-[5px] outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-300 text-gray-900"
             >
               <option value="" disabled>
-               SELECT VEG / NON-VEG
+                SELECT VEG / NON-VEG
               </option>
               <option value="Veg">Veg</option>
               <option value="Non-Veg">Non-Veg</option>

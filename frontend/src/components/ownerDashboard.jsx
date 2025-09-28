@@ -31,7 +31,10 @@ const OwnerDashboard = () => {
                   Add Your Restaurant
                 </h2>
                 <p>
-                  Join our food delivery platform and grow your business! Register your shop today to reach more hungry customers, manage your menu easily, and boost your sales with just a few clicks.
+                  Join our food delivery platform and grow your business!
+                  Register your shop today to reach more hungry customers,
+                  manage your menu easily, and boost your sales with just a few
+                  clicks.
                 </p>
                 <div className="flex items-center mt-5 gap-3">
                   <MdArrowRight className="text-amber-500 text-4xl" />
@@ -89,7 +92,9 @@ const OwnerDashboard = () => {
                 <h2 className="my-2 text-3xl font-bold text-amber-600">
                   Add Your Food Items
                 </h2>
-                <p>Add your tasty dishes and let customers find their favorites!</p>
+                <p>
+                  Add your tasty dishes and let customers find their favorites!
+                </p>
                 <div className="flex items-center mt-5 gap-3">
                   <MdArrowRight className="text-amber-500 text-4xl" />
                   <button

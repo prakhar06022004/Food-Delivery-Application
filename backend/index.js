@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 app.use("/api/shop", shopRoute);
-app.use("api/item", itemRouter);
+app.use("/api/item", itemRouter);
 connectDB().then(() => {
   app.listen(port, () => {
     console.log(`Server running on port ${port}`);
