@@ -35,6 +35,9 @@ const ItemsSchema = new mongoose.Schema({
     min: 0,
     required: true,
   },
+    image: {  
+    type: String,
+  },
 });
 
 const Item = mongoose.model("Item", ItemsSchema);

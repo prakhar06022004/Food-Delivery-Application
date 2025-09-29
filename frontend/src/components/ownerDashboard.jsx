@@ -13,10 +13,7 @@ const OwnerDashboard = () => {
 
   return (
     <>
-      {/* Navbar is fixed on top */}
       <Navbar />
-
-      {/* Content container with padding-top equal to navbar height */}
       <div className="w-full h-[calc(100vh)] flex flex-col items-center px-3 pt-[80px] overflow-y-auto">
         {!shopData && (
           <div className="flex items-center justify-center p-4 sm:p-6 w-full">
@@ -113,7 +110,9 @@ const OwnerDashboard = () => {
         {shopData?.items?.length > 0 && (<div className="w-full max-w-3xl flex flex-col">
          {shopData.items.map((foodItems,index)=>(
           <OwnerShopItem key={index} data={foodItems}/>
+          
          ))}
+         
           </div>)}
       </div>
     </>

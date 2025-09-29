@@ -3,12 +3,16 @@ import Shop from "../models/shopModel.js";
 import uploadOnCloudinary from "../utils/cloudinary.js";
 
 export const addItem = async (req,res) => {
+  console.log("File from multer:", req.file);
+
   try {
     const { name, foodType, category, price } = req.body;
     let image;
     if (req.file) {
       image = await uploadOnCloudinary(req.file.path);
+      console.log(image);
     }
+
     const shop = await Shop.findOne({ owner: req.userId })
     if (!shop) {
       return res.status(400).json({ errors: { general: "Shop not found" } });
@@ -23,14 +27,16 @@ export const addItem = async (req,res) => {
     });
 
     shop.items.push(item._id)
-    await shop.save();
+    await shop.save(); 
     await shop.populate("items owner")
+    console.log("Item Image URL:", item.image);
+    
+
     return res.status(201).json(shop);
   } catch (error) {
-    return res
-      .status(500)
-      .json({ errors: { general: "add item error", error } });
-  }
+  console.log("Add Item Error:", error);
+  return res.status(500).json({ error: error.message, stack: error.stack });
+}
 };
 
 export const editItem = async (req, res) => {
@@ -41,8 +47,9 @@ export const editItem = async (req, res) => {
     let image;
     if (req.file) {
       image = await uploadOnCloudinary(req.file.path);
-    }
+      console.log(image);
 
+    }
     const item = await Item.findByIdAndUpdate(
       itemId,
       { name, category, foodType, price, image },

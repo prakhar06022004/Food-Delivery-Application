@@ -45,7 +45,7 @@ const AddItem = () => {
       const formData = new FormData();
       formData.append("name", name);
       formData.append("category", category);
-      formData.append("price", price);
+      formData.append("price", Number(price));
       formData.append("foodType", foodType);
 
       if (backendImg) {
@@ -83,7 +83,7 @@ const AddItem = () => {
             <label htmlFor="foodName">Food Name</label>
             <input
               type="text"
-              name="shopName"
+              name="name"
               id="foodName"
               onChange={(e) => setName(e.target.value)}
               value={name || ""}
@@ -97,7 +97,7 @@ const AddItem = () => {
             <input
               type="file"
               name="image"
-              id="name"
+              id="image"
               accept="image/*"
               onChange={handleImage}
               className="w-full p-2 border-2 border-amber-300 rounded-[5px] outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-300"
@@ -131,7 +131,7 @@ const AddItem = () => {
               value={category || ""}
               className="w-full p-2 border-2 border-amber-300 rounded-[5px] outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-300 text-gray-900"
             >
-              <option value={cate} disabled>
+              <option value="cate" disabled>
                 SELECT CATEGORY
               </option>
               {cate.map((category, index) => {
@@ -150,7 +150,7 @@ const AddItem = () => {
                 SELECT VEG / NON-VEG
               </option>
               <option value="Veg">Veg</option>
-              <option value="Non-Veg">Non-Veg</option>
+              <option value="NoN-Veg">Non-Veg</option>
             </select>
           </div>
 

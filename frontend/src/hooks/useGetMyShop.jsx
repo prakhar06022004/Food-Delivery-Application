@@ -10,7 +10,7 @@ const useGetMyShop = () => {
     const fetchShop = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:8000/api/item/get-my-shop",
+          "http://localhost:8000/api/shop/get-my-shop",
           { withCredentials: true }
         );
         dispatchRedux(setShopData(res.data));
