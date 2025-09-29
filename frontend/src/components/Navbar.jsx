@@ -25,7 +25,7 @@ const Navbar = () => {
   if (!userData) return null;
 
   return (
-    <div className="w-full h-[80px] fixed z-[999] flex md:justify-center justify-between items-center md:p-[30px] p-[10px] gap-[30px]">
+    <div className="w-full h-[80px] fixed z-[999] flex md:justify-center justify-between items-center md:p-[30px] p-[10px] gap-[30px] bg-amber-50">
       {userData.role === "user" ? (
         <h1 className="text-amber-500 font-bold text-3xl cursor-pointer">
           Prakhar

@@ -107,13 +107,13 @@ const OwnerDashboard = () => {
             </div>
           </div>
         )}
-        {shopData?.items?.length > 0 && (<div className="w-full max-w-3xl flex flex-col">
-         {shopData.items.map((foodItems,index)=>(
-          <OwnerShopItem key={index} data={foodItems}/>
-          
-         ))}
-         
-          </div>)}
+        {shopData?.items?.length > 0 && (
+          <div className="w-full max-w-3xl flex flex-col sm:flex-row flex-wrap p-2 shadow-xl gap-4 justify-center items-center relative">
+            {shopData.items.map((foodItems, index) => (
+              <OwnerShopItem key={index} data={foodItems} />
+            ))}
+          </div>
+        )}
       </div>
     </>
   );
