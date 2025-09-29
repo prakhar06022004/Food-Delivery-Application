@@ -9,7 +9,7 @@ export const addItem = async (req,res) => {
     if (req.file) {
       image = await uploadOnCloudinary(req.file.path);
     }
-    const shop = await Shop.findOne({ owner: req.userId });
+    const shop = await Shop.findOne({ owner: req.userId })
     if (!shop) {
       return res.status(400).json({ errors: { general: "Shop not found" } });
     }
@@ -21,6 +21,10 @@ export const addItem = async (req,res) => {
       image,
       shop: shop._id,
     });
+
+    shop.items.push(item._id)
+    await shop.save();
+    await shop.populate("items owner")
     return res.status(201).json(shop);
   } catch (error) {
     return res

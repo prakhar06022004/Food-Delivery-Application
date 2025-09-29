@@ -5,6 +5,7 @@ import { MdArrowRight, MdArrowLeft, MdModeEdit } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { RiRestaurantFill } from "react-icons/ri";
 import { FaKitchenSet } from "react-icons/fa6";
+import OwnerShopItem from "./OwnerShopItem";
 
 const OwnerDashboard = () => {
   const navigate = useNavigate();
@@ -84,7 +85,7 @@ const OwnerDashboard = () => {
           </div>
         )}
 
-        {shopData && shopData.items.length === 0 && (
+        {shopData && shopData?.items?.length === 0 && (
           <div className="flex items-center justify-center p-4 sm:p-6 w-full mt-5">
             <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 border border-gray-100 hover:shadow-xl transition-shadow duration-300">
               <div className="flex flex-col items-center text-center">
@@ -109,6 +110,11 @@ const OwnerDashboard = () => {
             </div>
           </div>
         )}
+        {shopData?.items?.length > 0 && (<div className="w-full max-w-3xl flex flex-col">
+         {shopData.items.map((foodItems,index)=>(
+          <OwnerShopItem key={index} data={foodItems}/>
+         ))}
+          </div>)}
       </div>
     </>
   );
