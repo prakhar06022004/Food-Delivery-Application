@@ -1,8 +1,8 @@
 import { IoIosArrowRoundBack } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { RiRestaurantFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { setShopData } from "../../redux/shopSlice";
 import { HashLoader } from "react-spinners";
 import axios from "axios";
@@ -10,13 +10,17 @@ const EditItem = () => {
   const { shopData } = useSelector((state) => state.shop);
   const dispatchRedux = useDispatch();
   const navigate = useNavigate();
+  const [currentItem, setCurrentItem] = useState(null);
+  const { itemId } = useParams();
+  //   console.log(itemId);
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
-  const [frontendImg, setFrontendImg] = useState(null);
+  const [frontendImg, setFrontendImg] = useState("");
   const [backendImg, setBackendImg] = useState(null);
   const [loading, setLoading] = useState(false);
   const [category, setCategory] = useState("");
   const [foodType, setfoodType] = useState("");
+
   const cate = [
     "Main Course",
     "Snacks",
@@ -33,7 +37,7 @@ const EditItem = () => {
 
   const handleImage = (e) => {
     const file = e.target.files[0];
-    console.log(file);
+    // console.log(file);
     setBackendImg(file);
     setFrontendImg(URL.createObjectURL(file));
   };
@@ -52,12 +56,12 @@ const EditItem = () => {
         formData.append("image", backendImg);
       }
       const res = await axios.post(
-        "http://localhost:8000/api/item/add-item",
+        `http://localhost:8000/api/item/edit-item/${itemId}`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
           withCredentials: true, // agar auth cookie chahiye
-        } 
+        }
       );
       dispatchRedux(setShopData(res.data));
       setTimeout(() => {
@@ -68,6 +72,31 @@ const EditItem = () => {
       console.log(error);
     }
   };
+  useEffect(() => {
+    const handleGetItemId = async () => {
+      try {
+        const result = await axios.get(
+          `http://localhost:8000/api/item/get-by-id/${itemId}`,
+          { withCredentials: true }
+        );
+        setCurrentItem(result?.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    handleGetItemId();
+  }, [itemId]);
+
+  useEffect(() => {
+    if (currentItem) {
+      setName(currentItem?.name);
+      setPrice(currentItem.price);
+      setCategory(currentItem.category);
+      setfoodType(currentItem.foodType);
+      setFrontendImg(currentItem.image);
+    }
+  }, [currentItem]);
+
   return (
     <div className="sm:flex justify-center items-center p-6 min-h-screen relative bg-amber-100/10">
       <div className="absolute top-2 left-2.5 text-amber-600 cursor-pointer">
@@ -76,7 +105,7 @@ const EditItem = () => {
       <div className=" max-w-lg w-full shadow-lg p-5 bg-white border-orange-100 rounded-[10px]">
         <div className="flex flex-col justify-center items-center text-2xl font-medium">
           <RiRestaurantFill className="text-6xl bg-amber-500/10 p-3 rounded-full text-amber-600" />
-          Add Food Items
+          Edit Food Items
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           <div>
@@ -166,7 +195,7 @@ const EditItem = () => {
               type="submit"
               className="w-full bg-amber-500 p-2 text-white rounded-[7px] mt-4 cursor-pointer"
             >
-              Add Food Item
+              Edit Food Item
             </button>
           )}
         </form>

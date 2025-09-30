@@ -10,7 +10,7 @@ const OwnerShopItem = ({ data }) => {
         <div className="flex relative gap-5 py-2 pr-full border shadow-lg px-2 rounded-2xl border-amber-600 w-full">
           <div
             className="absolute top-1 right-1 bg-amber-500 rounded-full p-2 w-8 h-8 flex items-center justify-center cursor-pointer"
-            onClick={() => navigate(`/edit-item-shop${data._id}`)}
+            onClick={() => navigate(`/edit-item-shop/${data._id}`)}
           >
             <MdModeEdit size={40} className="text-white " />
           </div>

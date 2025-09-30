@@ -44,7 +44,7 @@ const App = () => {
         />
         <Route
           path="/create-edit-shop"
-          element={userData ? <CreateEditShop /> : <Navigate to={"signin"} />}
+          element={userData ? <CreateEditShop /> : <Navigate to={"/signin"} />}
         />
 
         <Route
@@ -53,8 +53,8 @@ const App = () => {
         />
 
         <Route
-          path="/edit-item-shop:itemId"
-          element={userData ? <EditItem /> : <Navigate to={"signin"} />}
+          path="/edit-item-shop/:itemId"
+          element={userData ? <EditItem /> : <Navigate to={"/signin"} />}
         />
       </Routes>
     </>
