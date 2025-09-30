@@ -38,7 +38,7 @@ export const signUp = async (req, res) => {
       role,
     });
 
-    const token = await generateToken(user._id);
+    const token = generateToken(user._id);
     res.cookie("token", token, {
       secure: false,
       sameSite: "strict",

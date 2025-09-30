@@ -100,7 +100,7 @@ const Navbar = () => {
               Add Food Item
             </button>
             <button className=" sm:hidden justify-center items-center bg-amber-600/10 py-1.5 px-2 rounded-3xl gap-1.5 text-amber-600 cursor-pointer">
-              <FaPlus size={24} />
+              <FaPlus size={24}  onClick={() => navigate("/add-item-shop")}/>
             </button>
           </>
         )}

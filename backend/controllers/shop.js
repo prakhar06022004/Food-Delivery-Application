@@ -5,13 +5,12 @@ export const createEditShop = async (req, res) => {
     const { name, city, state, address } = req.body;
 
     let shop = await Shop.findOne({ owner: req.userId });
-        let image;
+    let image;
     if (req.file) {
       image = await uploadCloudinary(req.file.path);
+    }  else if (shop) {
+      image = shop.image; // existing image retain
     }
-     else if (shop) {
-  image = shop.image; // existing image retain
-}
     if (!shop) {
       shop = await Shop.create({
         name,
@@ -39,20 +38,22 @@ export const createEditShop = async (req, res) => {
     await shop.populate("owner items");
     return res.status(201).json(shop);
   } catch (error) {
-     console.log(error);
+    console.log(error);
     return res.status(500).json({ errors: { general: error } });
   }
 };
 
 export const getMyShop = async (req, res) => {
   try {
-    const shop = await Shop.findOne({ owner: req.userId }).populate("owner items");
+    const shop = await Shop.findOne({ owner: req.userId }).populate(
+      "owner items"
+    );
     if (!shop) {
       return null;
     }
     return res.status(200).json(shop);
   } catch (error) {
-     console.log(error);
+    console.log(error);
     return res.status(500).json({ errors: { general: error } });
   }
 };

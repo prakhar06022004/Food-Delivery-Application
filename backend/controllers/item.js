@@ -3,7 +3,7 @@ import Shop from "../models/shopModel.js";
 import uploadOnCloudinary from "../utils/cloudinary.js";
 
 export const addItem = async (req,res) => {
-  console.log("File from multer:", req.file);
+  // console.log("File from multer:", req.file);
 
   try {
     const { name, foodType, category, price } = req.body;
