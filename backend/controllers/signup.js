@@ -67,7 +67,7 @@ export const signIn = async (req, res) => {
         },
       });
     }
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({
         errors: {
@@ -76,7 +76,7 @@ export const signIn = async (req, res) => {
       });
     }
 
-    const token = await generateToken(user._id);
+    const token = generateToken(user._id);
     res.cookie("token", token, {
       secure: false,
       sameSite: "strict",
@@ -192,7 +192,7 @@ export const googleAuth = async (req, res) => {
       });
     }
 
-    const token = await generateToken(user._id);
+    const token = generateToken(user._id);
     res.cookie("token", token, {
       secure: false,
       sameSite: "strict",
