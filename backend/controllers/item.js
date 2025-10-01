@@ -113,12 +113,12 @@ export const deleteItemById = async (req, res) => {
       return res.status(400).json({ message: "Item not found" });
     }
     const shop = await Shop.findOne({ owner: req.userId });
-shop.items = shop.items.filter((i) => i.toString() !== item._id.toString());
+    shop.items = shop.items.filter((i) => i.toString() !== item._id.toString());
     await shop.save();
     await shop.populate({
       path: "items",
       options: {
-        sort: { updatedAt: -1 }, 
+        sort: { updatedAt: -1 },
       },
     });
     return res.status(200).json(shop);
