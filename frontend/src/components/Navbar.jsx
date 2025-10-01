@@ -100,7 +100,7 @@ const Navbar = () => {
               Add Food Item
             </button>
             <button className=" sm:hidden justify-center items-center bg-amber-600/10 py-1.5 px-2 rounded-3xl gap-1.5 text-amber-600 cursor-pointer">
-              <FaPlus size={24}  onClick={() => navigate("/add-item-shop")}/>
+              <FaPlus size={24} onClick={() => navigate("/add-item-shop")} />
             </button>
           </>
         )}
@@ -150,9 +150,11 @@ const Navbar = () => {
             <div className="cursor-pointer font-medium">
               {userData.fullName}
             </div>
-            <div className="md:hidden text-amber-500 font-semibold">
-              My Orders
-            </div>
+            {userData.role === "user" && (
+              <div className="md:hidden text-amber-500 font-semibold">
+                My Orders
+              </div>
+            )}
 
             <div className="flex items-center gap-2 cursor-pointer">
               <CiLogout className="cursor-pointer text-amber-500 font-semibold" />

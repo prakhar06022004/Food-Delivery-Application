@@ -57,12 +57,12 @@ const AddItem = () => {
         {
           headers: { "Content-Type": "multipart/form-data" },
           withCredentials: true, // agar auth cookie chahiye
-        } 
+        }
       );
-      dispatchRedux(setShopData(res.data));
+      dispatchRedux(setShopData(res?.data));
       setTimeout(() => {
-        navigate("/");
         setLoading(false);
+        navigate("/");
       }, 1000);
     } catch (error) {
       console.log(error);

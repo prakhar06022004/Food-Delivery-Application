@@ -8,7 +8,7 @@ export const createEditShop = async (req, res) => {
     let image;
     if (req.file) {
       image = await uploadCloudinary(req.file.path);
-    }  else if (shop) {
+    } else if (shop) {
       image = shop.image; // existing image retain
     }
     if (!shop) {
@@ -35,7 +35,9 @@ export const createEditShop = async (req, res) => {
       );
     }
 
-    await shop.populate("owner items");
+    await shop
+      .populate("owner")
+      .populate({ path: "items", options: { sort: { updatedAt: -1 } } });
     return res.status(201).json(shop);
   } catch (error) {
     console.log(error);
@@ -45,9 +47,9 @@ export const createEditShop = async (req, res) => {
 
 export const getMyShop = async (req, res) => {
   try {
-    const shop = await Shop.findOne({ owner: req.userId }).populate(
-      "owner items"
-    );
+    const shop = await Shop.findOne({ owner: req.userId })
+      .populate("owner")
+      .populate({ path: "items", options: { sort: { updatedAt: -1 } } });
     if (!shop) {
       return null;
     }

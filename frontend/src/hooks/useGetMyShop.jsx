@@ -4,7 +4,7 @@ import axios from "axios";
 import { setShopData } from "../../redux/shopSlice";
 
 const useGetMyShop = () => {
-  const dispatchRedux = useDispatch(); 
+  const dispatchRedux = useDispatch();
 
   useEffect(() => {
     const fetchShop = async () => {
@@ -14,6 +14,7 @@ const useGetMyShop = () => {
           { withCredentials: true }
         );
         dispatchRedux(setShopData(res.data));
+        console.log(res?.data);
       } catch (error) {
         console.log(error);
       }

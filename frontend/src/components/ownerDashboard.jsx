@@ -1,4 +1,3 @@
-// OwnerDashboard.jsx
 import { useSelector } from "react-redux";
 import Navbar from "./Navbar";
 import { MdArrowRight, MdArrowLeft, MdModeEdit } from "react-icons/md";
@@ -9,6 +8,7 @@ import OwnerShopItem from "./OwnerShopItem";
 
 const OwnerDashboard = () => {
   const navigate = useNavigate();
+
   const { shopData } = useSelector((state) => state.shop);
 
   return (

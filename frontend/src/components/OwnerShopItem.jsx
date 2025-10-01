@@ -1,9 +1,22 @@
 import { MdModeEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import { setShopData } from "../../redux/shopSlice";
+import axios from "axios";
 const OwnerShopItem = ({ data }) => {
   const navigate = useNavigate();
+  const dispatchRedux = useDispatch();
+  const handleDeleteItem = async (itemId) => {
+    try {
+      const result = await axios.get(
+        `http://localhost:8000/api/item/delete-item/${data._id}`,{withCredentials:true}
+      );
+      dispatchRedux(setShopData(result?.data))
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div className=" flex sm:w-[48%] w-full shadow-md overflow-hidden mt-5 p-2 items-center justify-center rounded-2xl relative">
@@ -14,7 +27,7 @@ const OwnerShopItem = ({ data }) => {
           >
             <MdModeEdit size={40} className="text-white " />
           </div>
-          <div className="absolute top-[45px] right-1 bg-amber-500 rounded-full p-2 w-8 h-8 flex items-center justify-center cursor-pointer">
+          <div className="absolute top-[45px] right-1 bg-amber-500 rounded-full p-2 w-8 h-8 flex items-center justify-center cursor-pointer" onClick={handleDeleteItem}>
             <MdDelete size={40} className="text-white " />
           </div>
 
