@@ -39,7 +39,7 @@ const SignIn = () => {
         { withCredentials: true }
       );
       dispatchRedux(setUserData(fetchData.data.user));
-       navigate("/");
+      navigate("/");
       setLoading(false);
 
       setErr({});
@@ -73,7 +73,7 @@ const SignIn = () => {
       // console.log(finalData);
       setLoading(false);
       dispatchRedux(setUserData(finalData.data.user));
-       navigate("/")
+      navigate("/");
 
       // console.log(result);
     } catch (error) {

@@ -4,7 +4,7 @@ import { RiRestaurantFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { setShopData } from "../../redux/shopSlice";
-import {HashLoader} from "react-spinners"
+import { HashLoader } from "react-spinners";
 import axios from "axios";
 const CreateEditShop = () => {
   const { shopData } = useSelector((state) => state.shop);
@@ -27,7 +27,7 @@ const CreateEditShop = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
     try {
       const formData = new FormData();
       formData.append("name", name);
@@ -46,10 +46,10 @@ const CreateEditShop = () => {
         }
       );
       dispatchRedux(setShopData(res.data));
-       setTimeout(() => {
-      navigate("/");
-      setLoading(false);
-    }, 1000);
+      setTimeout(() => {
+        navigate("/");
+        setLoading(false);
+      }, 1000);
     } catch (error) {
       console.log(error.message);
     }
@@ -142,19 +142,21 @@ const CreateEditShop = () => {
               className="w-full p-2 border-2 border-amber-300 rounded-[5px] outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-300"
             />
           </div>
-            {loading ?  <button
-            type="submit"
-            className="w-full bg-amber-500 p-2 text-white rounded-[7px] mt-4 cursor-pointer flex justify-center items-center"
-          >
-            <HashLoader size={24} color="#fff"/>
-          </button> : <button
-            type="submit"
-            className="w-full bg-amber-500 p-2 text-white rounded-[7px] mt-4 cursor-pointer"
-          >
-            Save
-          </button>}
-         
-
+          {loading ? (
+            <button
+              type="submit"
+              className="w-full bg-amber-500 p-2 text-white rounded-[7px] mt-4 cursor-pointer flex justify-center items-center"
+            >
+              <HashLoader size={24} color="#fff" />
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="w-full bg-amber-500 p-2 text-white rounded-[7px] mt-4 cursor-pointer"
+            >
+              Save
+            </button>
+          )}
         </form>
       </div>
     </div>
