@@ -10,9 +10,10 @@ const OwnerShopItem = ({ data }) => {
   const handleDeleteItem = async (itemId) => {
     try {
       const result = await axios.get(
-        `http://localhost:8000/api/item/delete-item/${data._id}`,{withCredentials:true}
+        `http://localhost:8000/api/item/delete-item/${data._id}`,
+        { withCredentials: true }
       );
-      dispatchRedux(setShopData(result?.data))
+      dispatchRedux(setShopData(result?.data));
     } catch (error) {
       console.log(error);
     }
@@ -27,7 +28,10 @@ const OwnerShopItem = ({ data }) => {
           >
             <MdModeEdit size={40} className="text-white " />
           </div>
-          <div className="absolute top-[45px] right-1 bg-amber-500 rounded-full p-2 w-8 h-8 flex items-center justify-center cursor-pointer" onClick={handleDeleteItem}>
+          <div
+            className="absolute top-[45px] right-1 bg-amber-500 rounded-full p-2 w-8 h-8 flex items-center justify-center cursor-pointer"
+            onClick={handleDeleteItem}
+          >
             <MdDelete size={40} className="text-white " />
           </div>
 
