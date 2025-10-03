@@ -14,12 +14,11 @@ const UserDashboard = () => {
 
   const updateButtonScroll = (ref, leftArrow, rightArrow) => {
     const element = ref.current;
+    console.log(element);
     if (element) {
       leftArrow(element.scrollLeft > 0);
     }
-    rightArrow(
-      element.scrollLeft + element.clientWidth < element.scrollWidth
-    );
+    rightArrow(element.scrollLeft + element.clientWidth < element.scrollWidth);
   };
 
   const scrollHandler = (ref, direction) => {
@@ -31,15 +30,26 @@ const UserDashboard = () => {
     }
   };
 
-  useEffect(() => {
-    cateScrollRef.current.addEventListener("scroll", () => {
-      updateButtonScroll(
-        cateScrollRef,
-        setScrollLeftArrow,
-        setScrollRightArrow
-      );
-    });
-  }, []);
+useEffect(() => {
+  const handleScroll = () => {
+    updateButtonScroll(cateScrollRef, setScrollLeftArrow, setScrollRightArrow);
+  };
+
+  // initial check
+  handleScroll();
+
+  // scroll listener
+  const element = cateScrollRef.current;
+  element.addEventListener("scroll", handleScroll);
+
+  // cleanup with null check
+  return () => {
+    if (element) {
+      element.removeEventListener("scroll", handleScroll);
+    }
+  };
+}, []);
+
   return (
     <div className="w-screen min-h-screen flex flex-col gap-5 items-center bg-[#fff9f6] overflow-y-auto">
       <Navbar />
@@ -47,7 +57,7 @@ const UserDashboard = () => {
         <h1 className="text-2xl p-2"> Inspiration for your first order!</h1>
         <div className="w-full overflow-hidden flex relative">
           {ScrollLeftArrow && (
-            <button>
+            <button className="hidden md:block ">
               <FaRegArrowAltCircleLeft
                 className="absolute z-10 bg-amber-600 text-3xl text-white rounded-full top-1/3 left-0 hover:bg-amber-700 duration-200 cursor-pointer"
                 onClick={() => scrollHandler(cateScrollRef, "left")}
@@ -64,7 +74,7 @@ const UserDashboard = () => {
             ))}
           </div>
           {ScrollRightArrow && (
-            <button>
+            <button className="hidden md:block ">
               <FaRegArrowAltCircleRight
                 className="absolute z-10 bg-amber-600 text-3xl text-white rounded-full top-1/3 right-0 hover:bg-amber-700 duration-200 cursor-pointer"
                 onClick={() => scrollHandler(cateScrollRef, "right")}
