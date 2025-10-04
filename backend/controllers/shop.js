@@ -59,3 +59,23 @@ export const getMyShop = async (req, res) => {
     return res.status(500).json({ errors: { general: error } });
   }
 };
+
+export const getShopByCity = async (req, res) => {
+  try {
+    const { city } = req.params;
+
+    const shops = await Shop.find({
+      city: { $regex: new RegExp(`^${city}$`, "i") },
+    }).populate("items");
+
+    if (!shops || shops.length === 0) {
+      return res.status(404).json({ message: "shops not found" });
+    }
+
+    return res.status(200).json(shops);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: `get shop by city error: ${error.message}` });
+  }
+};

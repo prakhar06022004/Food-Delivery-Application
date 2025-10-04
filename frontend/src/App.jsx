@@ -10,12 +10,14 @@ import useGetMyShop from "./hooks/useGetMyShop";
 import CreateEditShop from "./pages/CreateEditShop";
 import AddItem from "./pages/AddItem";
 import EditItem from "./pages/EditItem";
+import UseGetShopCity from "./hooks/useGetShopCity";
 const App = () => {
   const { userData } = useSelector((state) => state.user);
   // useGetCurrentUser();
   const loading = useGetCurrentUser();
   UseGetCity();
   useGetMyShop();
+  UseGetShopCity()
   if (loading) {
     return (
       <div className="w-screen h-screen flex justify-center items-center">
