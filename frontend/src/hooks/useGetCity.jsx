@@ -8,14 +8,14 @@ function UseGetCity() {
   const geoApiKey = import.meta.env.VITE_GEO_API_KEY;
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(async (posi) => {
-      console.log(posi);
+      // console.log(posi);
       const latitude = posi.coords.latitude;
       const longitude = posi.coords.longitude;
       // console.log(posi.coords);
       const result = await axios.get(
         `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&format=json&apiKey=${geoApiKey}`
       );
-console.log(result)
+// console.log(result)
       dispatchRedux(setCity(result?.data?.results[0]?.county));
             dispatchRedux(setState(result?.data?.results[0]?.state));
     });

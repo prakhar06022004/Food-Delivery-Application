@@ -9,16 +9,16 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const UserDashboard = () => {
-        const { city } = useSelector((state) => state.user);
-
-  const [shopImg, setShopImg] = useState(null);
-  // const { shopData } = useSelector((state) => state.shop);
-  // console.log(`shop data is ${shopData}`);
+  const { city,shopInMyCity } = useSelector((state) => state.user);
+  console.log(shopInMyCity);
   const cateScrollRef = useRef();
+  const shopScrollRef = useRef();
+
   const [ScrollLeftArrow, setScrollLeftArrow] = useState(false);
   const [ScrollRightArrow, setScrollRightArrow] = useState(false);
+  const [ScrollShopLeftArrow, setScrollShopLeftArrow] = useState(false);
+  const [ScrollShopRightArrow, setScrollShopRightArrow] = useState(false);
 
- 
   const updateButtonScroll = (ref, leftArrow, rightArrow) => {
     const element = ref.current;
     // console.log(element);
@@ -44,6 +44,11 @@ const UserDashboard = () => {
         setScrollLeftArrow,
         setScrollRightArrow
       );
+      updateButtonScroll(
+        shopScrollRef,
+        setScrollShopLeftArrow,
+        setScrollShopRightArrow
+      );
     };
 
     // initial check
@@ -52,11 +57,15 @@ const UserDashboard = () => {
     // scroll listener
     const element = cateScrollRef.current;
     element.addEventListener("scroll", handleScroll);
-
+    const shopElement = shopScrollRef.current;
+    shopElement.addEventListener("scroll", handleScroll);
     // cleanup with null check
     return () => {
       if (element) {
         element.removeEventListener("scroll", handleScroll);
+      }
+      if (shopElement) {
+        shopElement.removeEventListener("scroll", handleScroll);
       }
     };
   }, []);
@@ -81,7 +90,7 @@ const UserDashboard = () => {
             ref={cateScrollRef}
           >
             {categories.map((cate, index) => (
-              <CategoryCards key={index} data={cate} />
+              <CategoryCards key={index} name={cate?.category} image={cate?.image} />
             ))}
           </div>
           {ScrollRightArrow && (
@@ -95,42 +104,40 @@ const UserDashboard = () => {
         </div>
       </div>
       <div className="w-full max-w-6xl shadow-lg flex flex-col gap-5 items-start p-[10px] text-2xl">
-        <div>
-          <h1>{`Best Shop In ${city}`}</h1>
-           <div className="w-full overflow-hidden flex relative">
-          {ScrollLeftArrow && (
+        <h1>{`Best Shop In ${city}`}</h1>
+        <div className="w-full overflow-hidden flex relative">
+          {ScrollShopLeftArrow && (
             <button className="hidden md:block ">
               <FaRegArrowAltCircleLeft
                 className="absolute z-10 bg-amber-600 text-3xl text-white rounded-full top-1/3 left-0 hover:bg-amber-700 duration-200 cursor-pointer"
-                onClick={() => scrollHandler(cateScrollRef, "left")}
+                onClick={() => scrollHandler(shopScrollRef, "left")}
               />
             </button>
           )}
 
           <div
             className="w-full flex gap-5 overflow-x-auto shrink-0 flex-nowrap overflow-hidden"
-            ref={cateScrollRef}
+            ref={shopScrollRef}
           >
-            {categories.map((cate, index) => (
-              <CategoryCards key={index} data={cate} />
+            {shopInMyCity.map((shop, index) => (
+              <CategoryCards key={index} name={shop?.name} image={shop?.image} />
             ))}
           </div>
-          {ScrollRightArrow && (
+          {ScrollShopRightArrow && (
             <button className="hidden md:block ">
               <FaRegArrowAltCircleRight
                 className="absolute z-10 bg-amber-600 text-3xl text-white rounded-full top-1/3 right-0 hover:bg-amber-700 duration-200 cursor-pointer"
-                onClick={() => scrollHandler(cateScrollRef, "right")}
+                onClick={() => scrollHandler(shopScrollRef, "right")}
               />
             </button>
           )}
         </div>
-{/* {shopImg && <img
+        {}
+        {/* {shopImg && <img
             src={shopImg?.image}
             alt=""
             className="w-full h-40 sm:h-64 object-cover"
           />} */}
-          
-        </div>
       </div>
     </div>
   );

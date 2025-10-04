@@ -14,7 +14,7 @@ const useGetMyShop = () => {
           { withCredentials: true }
         );
         dispatchRedux(setShopData(res.data));
-        console.log(res?.data);
+        console.log(res.data);
       } catch (error) {
         console.log(error);
       }
