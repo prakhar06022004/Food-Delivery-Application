@@ -1,5 +1,11 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap');
 
+@import "tailwindcss";
+ @theme {
+  --font-kaushan:"Kaushan Script", cursive;
+  --font-fredoka:"Fredoka", sans-serif;
+ }
 html,
 body {
   box-sizing: border-box;

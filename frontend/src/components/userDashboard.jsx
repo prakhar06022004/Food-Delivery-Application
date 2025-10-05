@@ -77,7 +77,7 @@ const UserDashboard = () => {
     <div className="w-screen min-h-screen flex flex-col gap-5 items-center bg-[#fff9f6] overflow-y-auto">
       <Navbar />
       <div className="w-full max-w-6xl shadow-lg flex flex-col gap-5 items-start p-[10px] pt-[80px]">
-        <h1 className="sm:text-2xl text-[22px] p-2"> Inspiration for your first order!</h1>
+        <h1 className="sm:text-2xl text-[22px] p-2 font-fredoka font-medium shadow-sm "> Inspiration for your first order!</h1>
         <div className="w-full overflow-hidden flex relative">
           {ScrollLeftArrow && (
             <button className="hidden md:block ">
@@ -111,7 +111,7 @@ const UserDashboard = () => {
         </div>
       </div>
       <div className="w-full max-w-6xl shadow-lg flex flex-col gap-2 items-start p-[10px] text-2xl">
-        <h1 className="sm:text-2xl text-[22px] p-2">{`Best Shop In ${city}`}</h1>
+        <h1 className="sm:text-2xl text-[22px] p-2 font-fredoka font-medium shadow-sm">{`Best Shop In ${city}`}</h1>
         <div className="w-full overflow-hidden flex relative">
           {ScrollShopLeftArrow && (
             <button className="hidden md:block ">
@@ -145,7 +145,7 @@ const UserDashboard = () => {
         </div>
       </div>
       <div className="w-full max-w-6xl shadow-lg flex flex-col gap-2 items-start p-[10px] text-2xl">
-        <h1 className="sm:text-2xl text-[22px] text-center p-2">Suggested Food Items In Your City!</h1>
+        <h1 className="sm:text-2xl text-[22px] text-center p-2 font-fredoka font-medium shadow-sm">Suggested Food Items In Your City!</h1>
         <div className="w-full flex gap-5 justify-center items-center p-2 h-auto flex-wrap sm:flex-nowrap">
         {itemsInMyCity?.map((foodItems, index) => {
           return <FoodCardsCity key={index} data={foodItems} />;

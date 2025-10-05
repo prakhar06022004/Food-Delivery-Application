@@ -1,7 +1,7 @@
 
 function CategoryCards({ name, image }) {
   return (
-    <div className="w-28 h-28 sm:w-32 sm:h-32 border rounded-2xl p-1 overflow-hidden bg-white shadow-xl shrink-0 relative">
+    <div className="w-28 h-28 sm:w-32 sm:h-32 border-2 border-amber-400 rounded-2xl p-1 overflow-hidden bg-white shadow-xl shrink-0 relative">
       <img
         src={image}
         alt={name}

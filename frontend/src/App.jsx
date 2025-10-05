@@ -15,9 +15,10 @@ import UseGetItemsByCity from "./hooks/useGetItemsByCity";
 const App = () => {
   const { userData } = useSelector((state) => state.user);
   // useGetCurrentUser();
-  const loading = useGetCurrentUser();
-  UseGetCity();
-  useGetMyShop();
+  const loadingUser = useGetCurrentUser();
+  const loadingShop = useGetMyShop();
+  const loading = loadingUser || loadingShop;
+    UseGetCity();
   UseGetShopCity();
   UseGetItemsByCity();
   if (loading) {
