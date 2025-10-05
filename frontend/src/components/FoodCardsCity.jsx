@@ -3,8 +3,21 @@ import { FaIndianRupeeSign } from "react-icons/fa6";
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import { IoCart } from "react-icons/io5";
+import { useState } from "react";
 
 function FoodCardsCity({ data }) {
+  const [quantity, setQuantity] = useState(0);
+  const handleIncrease = () => {
+    if (quantity < 20) {
+      setQuantity((prev) => prev + 1);
+    }
+  };
+  const handleDecrease = () => {
+    if (quantity > 0) {
+      setQuantity((prev) => prev - 1);
+    }
+  };
+
   const renderingStars = (rating) => {
     let stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -21,7 +34,7 @@ function FoodCardsCity({ data }) {
   renderingStars();
   console.log(data);
   return (
-    <div className="w-[150px] sm:w-[220px] h-auto rounded-2xl overflow-hidden shadow-xl border border-amber-300">
+    <div className="w-[160px] sm:w-[220px] h-auto rounded-2xl overflow-hidden shadow-xl border border-amber-300">
       <div className="relative w-full h-auto flex flex-col justify-center items-center bg-white p-2 ">
         <div>
           <img
@@ -58,19 +71,29 @@ function FoodCardsCity({ data }) {
               {data.price}
             </p>
           </div>
-  <div className="flex w-[120px] h-[30px] border rounded-4xl items-center overflow-hidden ">
-    {/* Left part: - 0 + */}
-    <div className="flex justify-around flex-1">
-      <span className="text-[18px] cursor-pointer">-</span>
-      <span className="text-[18px]">0</span>
-      <span className="text-[18px] cursor-pointer">+</span>
-    </div>
+          <div className="flex w-[120px] h-[30px] border rounded-4xl items-center overflow-hidden ">
+            {/* Left part: - 0 + */}
+            <div className="flex justify-around flex-1">
+              <span
+                className="text-[18px] cursor-pointer"
+                onClick={handleDecrease}
+              >
+                -
+              </span>
+              <span className="text-[18px]">{quantity}</span>
+              <span
+                className="text-[18px] cursor-pointer"
+                onClick={handleIncrease}
+              >
+                +
+              </span>
+            </div>
 
-    {/* Right part: Cart icon */}
-    <div className="h-full px-1 py-2 bg-amber-500 text-white cursor-pointer flex items-center justify-center">
-      <IoCart />
-    </div>
-  </div>
+            {/* Right part: Cart icon */}
+            <div className="h-full px-1 py-2 bg-amber-500 text-white cursor-pointer flex items-center justify-center">
+              <IoCart />
+            </div>
+          </div>
         </div>
       </div>
     </div>
