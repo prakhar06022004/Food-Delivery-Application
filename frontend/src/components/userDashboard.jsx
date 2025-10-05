@@ -7,9 +7,12 @@ import { useRef } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import FoodCardsCity from "./FoodCardsCity";
 
 const UserDashboard = () => {
-  const { city,shopInMyCity } = useSelector((state) => state.user);
+  const { city, shopInMyCity, itemsInMyCity } = useSelector(
+    (state) => state.user
+  );
   console.log(shopInMyCity);
   const cateScrollRef = useRef();
   const shopScrollRef = useRef();
@@ -74,7 +77,7 @@ const UserDashboard = () => {
     <div className="w-screen min-h-screen flex flex-col gap-5 items-center bg-[#fff9f6] overflow-y-auto">
       <Navbar />
       <div className="w-full max-w-6xl shadow-lg flex flex-col gap-5 items-start p-[10px] pt-[80px]">
-        <h1 className="text-2xl p-2"> Inspiration for your first order!</h1>
+        <h1 className="sm:text-2xl text-[22px] p-2"> Inspiration for your first order!</h1>
         <div className="w-full overflow-hidden flex relative">
           {ScrollLeftArrow && (
             <button className="hidden md:block ">
@@ -90,7 +93,11 @@ const UserDashboard = () => {
             ref={cateScrollRef}
           >
             {categories.map((cate, index) => (
-              <CategoryCards key={index} name={cate?.category} image={cate?.image} />
+              <CategoryCards
+                key={index}
+                name={cate?.category}
+                image={cate?.image}
+              />
             ))}
           </div>
           {ScrollRightArrow && (
@@ -103,8 +110,8 @@ const UserDashboard = () => {
           )}
         </div>
       </div>
-      <div className="w-full max-w-6xl shadow-lg flex flex-col gap-5 items-start p-[10px] text-2xl">
-        <h1>{`Best Shop In ${city}`}</h1>
+      <div className="w-full max-w-6xl shadow-lg flex flex-col gap-2 items-start p-[10px] text-2xl">
+        <h1 className="sm:text-2xl text-[22px] p-2">{`Best Shop In ${city}`}</h1>
         <div className="w-full overflow-hidden flex relative">
           {ScrollShopLeftArrow && (
             <button className="hidden md:block ">
@@ -119,8 +126,12 @@ const UserDashboard = () => {
             className="w-full flex gap-5 overflow-x-auto shrink-0 flex-nowrap overflow-hidden"
             ref={shopScrollRef}
           >
-            {shopInMyCity.map((shop, index) => (
-              <CategoryCards key={index} name={shop?.name} image={shop?.image} />
+            {shopInMyCity?.map((shop, index) => (
+              <CategoryCards
+                key={index}
+                name={shop?.name}
+                image={shop?.image}
+              />
             ))}
           </div>
           {ScrollShopRightArrow && (
@@ -132,12 +143,14 @@ const UserDashboard = () => {
             </button>
           )}
         </div>
-        {}
-        {/* {shopImg && <img
-            src={shopImg?.image}
-            alt=""
-            className="w-full h-40 sm:h-64 object-cover"
-          />} */}
+      </div>
+      <div className="w-full max-w-6xl shadow-lg flex flex-col gap-2 items-start p-[10px] text-2xl">
+        <h1 className="sm:text-2xl text-[22px] text-center p-2">Suggested Food Items In Your City!</h1>
+        <div className="w-full flex gap-5 justify-center items-center p-2 h-auto flex-wrap sm:flex-nowrap">
+        {itemsInMyCity?.map((foodItems, index) => {
+          return <FoodCardsCity key={index} data={foodItems} />;
+        })}
+        </div>
       </div>
     </div>
   );

@@ -7,13 +7,13 @@ import axios from "axios";
 const OwnerShopItem = ({ data }) => {
   const navigate = useNavigate();
   const dispatchRedux = useDispatch();
-  const handleDeleteItem = async (itemId) => {
+  const handleDeleteItem = async () => {
     try {
       const result = await axios.get(
         `http://localhost:8000/api/item/delete-item/${data._id}`,
         { withCredentials: true }
       );
-      dispatchRedux(setShopData(result?.data));
+      dispatchRedux(setShopData(result.data));
     } catch (error) {
       console.log(error);
     }
