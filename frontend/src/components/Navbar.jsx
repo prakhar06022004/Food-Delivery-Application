@@ -25,15 +25,13 @@ const Navbar = () => {
   if (!userData) return null;
 
   return (
-    <div className="w-full h-[80px] fixed z-[999] flex md:justify-center justify-between items-center md:p-[30px] p-[10px] gap-[30px] bg-[#FE4A11]">
+    <div className="w-full md:h-[80px] fixed z-[999] flex md:justify-center justify-between items-center md:p-[30px] p-[15px] gap-[30px] bg-[#FD5922] rounded-bl-4xl rounded-br-4xl">
       {userData.role === "user" ? (
         <h1 className="text-white font-bold text-3xl cursor-pointer">
           Prakhar
         </h1>
       ) : (
-        <h1 className="text-white font-bold text-3xl cursor-pointer">
-          Harsh
-        </h1>
+        <h1 className="text-white font-bold text-3xl cursor-pointer">Harsh</h1>
       )}
 
       {showSearch && userData.role === "user" && (
@@ -55,7 +53,7 @@ const Navbar = () => {
         </div>
       )}
       {userData.role === "user" && (
-        <div className="md:w-[60%] lg:w-[40%] h-[70px] bg-white shadow-lg rounded-lg sm:flex hidden items-center px-1.5">
+        <div className="md:w-[60%] lg:w-[40%] h-[60px] bg-white shadow-lg rounded-lg sm:flex hidden items-center px-1.5">
           <div className="flex items-center gap-1 overflow-hidden w-[30%] border-r-2 border-gray-500">
             <IoLocationSharp size={23} color="orange" />
             <div className="text-[19px] w-[80%] truncate text-gray-700">
@@ -84,8 +82,7 @@ const Navbar = () => {
           ) : (
             <IoIosSearch
               size={25}
-              color="gray"
-              className="md:hidden cursor-pointer"
+              className="md:hidden text-white cursor-pointer"
               onClick={() => setShowSearch(true)}
             />
           ))}
@@ -93,13 +90,13 @@ const Navbar = () => {
         {userData.role === "owner" && shopData && (
           <>
             <button
-              className="hidden sm:flex justify-center items-center bg-amber-600/10 py-1.5 px-2 rounded-3xl gap-1.5 text-amber-600 cursor-pointer"
+              className="hidden sm:flex justify-center items-center bg-amber-600/50 py-1.5 px-2 rounded-3xl gap-1.5 text-white cursor-pointer"
               onClick={() => navigate("/add-item-shop")}
             >
               <FaPlus size={20} />
               Add Food Item
             </button>
-            <button className=" sm:hidden justify-center items-center bg-amber-600/10 py-1.5 px-2 rounded-3xl gap-1.5 text-amber-600 cursor-pointer">
+            <button className=" sm:hidden justify-center items-center bg-amber-600/50 py-1.5 px-2 rounded-3xl gap-1.5 text-white cursor-pointer">
               <FaPlus size={24} onClick={() => navigate("/add-item-shop")} />
             </button>
           </>
@@ -117,7 +114,7 @@ const Navbar = () => {
             My Orders
           </button>
         ) : (
-          <button className="flex items-center gap-1 cursor-pointer text-[17px] rounded-3xl py-1.5 px-2 text-amber-600 bg-amber-600/10 whitespace-nowrap">
+          <button className="flex items-center gap-1 cursor-pointer text-[17px] rounded-3xl py-1.5 px-2 text-white bg-amber-600/10 whitespace-nowrap">
             {/* Icon with badge (only for mobile) */}
             <span className="relative sm:hidden">
               <CiReceipt size={25} />
@@ -126,7 +123,7 @@ const Navbar = () => {
               </span>
             </span>
 
-            <span className="relative hidden sm:flex">
+            <span className="relative hidden sm:flex text-white">
               <span className="hidden sm:inline">
                 <CiReceipt size={25} />
               </span>
