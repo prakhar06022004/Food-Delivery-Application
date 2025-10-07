@@ -14,13 +14,13 @@ import UseGetShopCity from "./hooks/useGetShopCity";
 import UseGetItemsByCity from "./hooks/useGetItemsByCity";
 const App = () => {
   const { userData } = useSelector((state) => state.user);
-  // useGetCurrentUser();
   const loadingUser = useGetCurrentUser();
   const loadingShop = useGetMyShop();
-  const loading = loadingUser || loadingShop;
-    UseGetCity();
+  UseGetCity();
   UseGetShopCity();
   UseGetItemsByCity();
+    const loading = loadingUser || loadingShop;
+
   if (loading) {
     return (
       <div className="w-screen h-screen flex justify-center items-center">

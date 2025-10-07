@@ -76,7 +76,7 @@ const UserDashboard = () => {
   return (
     <div className="w-screen min-h-screen flex flex-col gap-5 items-center bg-[#fff9f6] overflow-y-auto">
       <Navbar />
-      <div className="w-full max-w-6xl shadow-lg flex flex-col gap-5 items-start p-[10px] pt-[80px]">
+      <div className="w-full max-w-6xl shadow-lg flex flex-col gap-5 items-start p-[10px] pt-[100px]">
         <h1 className="sm:text-2xl text-[22px] p-2 font-fredoka font-medium shadow-sm "> Inspiration for your first order!</h1>
         <div className="w-full overflow-hidden flex relative">
           {ScrollLeftArrow && (

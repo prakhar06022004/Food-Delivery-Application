@@ -25,13 +25,13 @@ const Navbar = () => {
   if (!userData) return null;
 
   return (
-    <div className="w-full h-[80px] fixed z-[999] flex md:justify-center justify-between items-center md:p-[30px] p-[10px] gap-[30px] bg-amber-50">
+    <div className="w-full h-[80px] fixed z-[999] flex md:justify-center justify-between items-center md:p-[30px] p-[10px] gap-[30px] bg-[#FE4A11]">
       {userData.role === "user" ? (
-        <h1 className="text-amber-500 font-bold text-3xl cursor-pointer">
+        <h1 className="text-white font-bold text-3xl cursor-pointer">
           Prakhar
         </h1>
       ) : (
-        <h1 className="text-amber-500 font-bold text-3xl cursor-pointer">
+        <h1 className="text-white font-bold text-3xl cursor-pointer">
           Harsh
         </h1>
       )}
@@ -62,7 +62,7 @@ const Navbar = () => {
               {city}
             </div>
           </div>
-          <div className="flex items-center justify-center border p-1 rounded-2xl w-full gap-2 ml-4 focus-within:border-amber-600 focus-within:ring-1 focus-within:ring-amber-300 border-none">
+          <div className="flex items-center justify-center border p-1 rounded-2xl w-full gap-2 ml-4 border-none">
             <IoIosSearch size={25} color="gray" />
             <input
               type="search"
@@ -78,7 +78,7 @@ const Navbar = () => {
           (showSearch ? (
             <RxCross2
               size={20}
-              className="cursor-pointer text-amber-600 sm:hidden"
+              className="cursor-pointer text-white sm:hidden"
               onClick={() => setShowSearch(false)}
             />
           ) : (
@@ -106,14 +106,14 @@ const Navbar = () => {
         )}
         {userData.role === "user" && (
           <div className="relative cursor-pointer">
-            <IoCartOutline size={25} className="text-amber-500" />
-            <span className="absolute right-[-3px] top-[-15px] text-amber-600">
+            <IoCartOutline size={25} className="text-white" />
+            <span className="absolute right-[-3px] top-[-15px] text-white">
               0
             </span>
           </div>
         )}
         {userData.role === "user" ? (
-          <button className="hidden md:block cursor-pointer text-[17px] rounded-3xl py-1.5 px-2 text-amber-600 bg-amber-600/10 whitespace-nowrap">
+          <button className="hidden md:block cursor-pointer text-[17px] rounded-3xl py-1.5 px-2 text-white bg-amber-600/10 whitespace-nowrap">
             My Orders
           </button>
         ) : (

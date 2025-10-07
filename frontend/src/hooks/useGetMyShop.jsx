@@ -9,10 +9,13 @@ const useGetMyShop = () => {
   const [loading, setLoading] = useState(true); // ✅ loading state
 
   useEffect(() => {
-    if (!userData) return; // userData ke bina fetch mat karo
+    if (!userData) {
+      setLoading(false);
+      return;
+    } // userData ke bina fetch mat karo
 
     const fetchShop = async () => {
-      setLoading(true); // fetch start hone pe loading true
+      // setLoading(true); // fetch start hone pe loading true
       try {
         const res = await axios.get(
           "http://localhost:8000/api/shop/get-my-shop",

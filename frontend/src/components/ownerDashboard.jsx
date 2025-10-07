@@ -53,7 +53,7 @@ const OwnerDashboard = () => {
 
         {shopData && (
           <div className="w-full px-2 flex flex-col items-center gap-5">
-            <h2 className="text-[20px] sm:text-3xl font-bold flex items-center justify-center gap-2 text-gray-800 text-center mt-5 shadow-md p-4 box-border">
+            <h2 className="text-[20px] sm:text-5xl font-ceviche flex items-center justify-center gap-2 text-red-600 text-center mt-5 shadow-md p-4 box-border">
               <RiRestaurantFill className="hidden sm:block sm:w-[35px] h-[35px] text-amber-600 " />
               WELCOME TO {shopData.name} BAKERY
             </h2>
