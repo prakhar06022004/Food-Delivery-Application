@@ -19,7 +19,7 @@ const App = () => {
   UseGetCity();
   UseGetShopCity();
   UseGetItemsByCity();
-    const loading = loadingUser || loadingShop;
+  const loading = loadingUser || loadingShop;
 
   if (loading) {
     return (

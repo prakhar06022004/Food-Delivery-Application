@@ -1,7 +1,5 @@
 const DeliveryBoyDashboard = () => {
-  return (
-    <div>DeliveryBoyDashboard</div>
-  )
-}
+  return <div>DeliveryBoyDashboard</div>;
+};
 
-export default DeliveryBoyDashboard
+export default DeliveryBoyDashboard;
