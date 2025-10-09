@@ -4,9 +4,14 @@ import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import { IoCart } from "react-icons/io5";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setAddToCart } from "../../redux/userSlice";
 
 function FoodCardsCity({ data }) {
+  const { cartItems } = useSelector((state) => state.user);
   const [quantity, setQuantity] = useState(0);
+  const dispatchRedux = useDispatch();
+
   const handleIncrease = () => {
     if (quantity < 20) {
       setQuantity((prev) => prev + 1);
@@ -73,16 +78,16 @@ function FoodCardsCity({ data }) {
           </div>
           <div className="flex w-[120px] h-[30px] border rounded-4xl items-center overflow-hidden ">
             {/* Left part: - 0 + */}
-            <div className="flex justify-around flex-1">
+            <div className="flex justify-around items-center flex-1">
               <span
-                className="text-[18px] cursor-pointer"
+                className="text-[20px] cursor-pointer"
                 onClick={handleDecrease}
               >
                 -
               </span>
               <span className="text-[18px]">{quantity}</span>
               <span
-                className="text-[18px] cursor-pointer"
+                className="text-[20px] cursor-pointer"
                 onClick={handleIncrease}
               >
                 +
@@ -90,7 +95,26 @@ function FoodCardsCity({ data }) {
             </div>
 
             {/* Right part: Cart icon */}
-            <div className="h-full px-1 py-2 bg-amber-500 text-white cursor-pointer flex items-center justify-center">
+            <div
+              className={`${
+                cartItems.some((i) => i.id === data._id)
+                  ? "bg-gray-800"
+                  : "bg-amber-500"
+              } h-full px-1 py-2  text-white cursor-pointer flex items-center justify-center`}
+              onClick={() =>
+                dispatchRedux(
+                  setAddToCart({
+                    id: data._id,
+                    name: data.name,
+                    price: data.price,
+                    image: data.image,
+                    quantity,
+                    foodType: data.foodType,
+                    shop: data.shop,
+                  })
+                )
+              }
+            >
               <IoCart />
             </div>
           </div>
