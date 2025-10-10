@@ -9,7 +9,7 @@ import { setAddToCart } from "../../redux/userSlice";
 
 function FoodCardsCity({ data }) {
   const { cartItems } = useSelector((state) => state.user);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const dispatchRedux = useDispatch();
 
   const handleIncrease = () => {

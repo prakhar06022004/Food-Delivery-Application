@@ -12,6 +12,7 @@ import AddItem from "./pages/AddItem";
 import EditItem from "./pages/EditItem";
 import UseGetShopCity from "./hooks/useGetShopCity";
 import UseGetItemsByCity from "./hooks/useGetItemsByCity";
+import CartPage from "./pages/CartPage";
 const App = () => {
   const { userData } = useSelector((state) => state.user);
   const loadingUser = useGetCurrentUser();
@@ -60,6 +61,11 @@ const App = () => {
         <Route
           path="/edit-item-shop/:itemId"
           element={userData ? <EditItem /> : <Navigate to={"/signin"} />}
+        />
+
+        <Route
+          path="/cart"
+          element={userData ? <CartPage /> : <Navigate to={"/signin"} />}
         />
       </Routes>
     </>

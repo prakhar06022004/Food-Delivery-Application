@@ -78,7 +78,7 @@ const UserDashboard = () => {
       <Navbar />
       <div className="w-full max-w-6xl shadow-lg flex flex-col gap-5 items-start p-[10px] pt-[100px]">
         <h1 className="sm:text-2xl text-[22px] p-2 font-fredoka font-medium shadow-sm ">
-          {" "}
+          
           Inspiration for your first order!
         </h1>
         <div className="w-full overflow-hidden flex relative">
