@@ -6,7 +6,8 @@ import { IoCart } from "react-icons/io5";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setAddToCart } from "../../redux/userSlice";
-
+import { IoIosAdd } from "react-icons/io";
+import { FiMinus } from "react-icons/fi";
 function FoodCardsCity({ data }) {
   const { cartItems } = useSelector((state) => state.user);
   const [quantity, setQuantity] = useState(1);
@@ -80,17 +81,18 @@ function FoodCardsCity({ data }) {
             {/* Left part: - 0 + */}
             <div className="flex justify-around items-center flex-1">
               <span
-                className="text-[20px] cursor-pointer"
+                className="text-[20px] cursor-pointer hover:bg-gray-200 rounded-full duration-200"
                 onClick={handleDecrease}
               >
-                -
+                <FiMinus />
               </span>
               <span className="text-[18px]">{quantity}</span>
               <span
-                className="text-[20px] cursor-pointer"
+                className="text-[20px] cursor-pointer hover:bg-gray-200 rounded-full duration-200"
                 onClick={handleIncrease}
+                
               >
-                +
+                <IoIosAdd size={25}/>
               </span>
             </div>
 
