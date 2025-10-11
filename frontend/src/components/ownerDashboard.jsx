@@ -5,8 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { RiRestaurantFill } from "react-icons/ri";
 import { FaKitchenSet } from "react-icons/fa6";
 import OwnerShopItem from "./OwnerShopItem";
-import useGetMyShop from "../hooks/useGetMyShop";
-// import { useEffect, useState } from "react";
 
 const OwnerDashboard = () => {
   const navigate = useNavigate();

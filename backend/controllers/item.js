@@ -41,7 +41,7 @@ export const addItem = async (req, res) => {
         options: { sort: { updatedAt: -1 } }, // latest first
       });
 
-    console.log("Item Image URL:", item.image);
+    // console.log("Item Image URL:", item.image);
 
     return res.status(201).json(updatedShop);
   } catch (error) {

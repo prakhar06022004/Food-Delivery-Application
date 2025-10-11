@@ -90,9 +90,8 @@ function FoodCardsCity({ data }) {
               <span
                 className="text-[20px] cursor-pointer hover:bg-gray-200 rounded-full duration-200"
                 onClick={handleIncrease}
-                
               >
-                <IoIosAdd size={25}/>
+                <IoIosAdd size={25} />
               </span>
             </div>
 
