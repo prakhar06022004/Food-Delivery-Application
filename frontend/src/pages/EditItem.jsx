@@ -72,6 +72,7 @@ const EditItem = () => {
       console.log(error);
     }
   };
+  
   useEffect(() => {
     const handleGetItemId = async () => {
       try {

@@ -33,7 +33,7 @@ const useGetMyShop = () => {
     fetchShop();
   }, [userData, dispatchRedux]); // ✅ sirf userData aur dispatchRedux
 
-  return loading; // ✅ hook return kare loading
+  return { loading }; // ✅ hook return kare loading
 };
 
 export default useGetMyShop;

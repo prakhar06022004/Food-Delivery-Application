@@ -26,6 +26,6 @@ function useGetCurrentUser() {
 
     fetchUser();
   }, []);
-  return loading;
+  return { loading };
 }
 export default useGetCurrentUser;

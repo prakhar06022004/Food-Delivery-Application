@@ -5,17 +5,33 @@ import { useNavigate } from "react-router-dom";
 import { RiRestaurantFill } from "react-icons/ri";
 import { FaKitchenSet } from "react-icons/fa6";
 import OwnerShopItem from "./OwnerShopItem";
+import useGetMyShop from "../hooks/useGetMyShop";
 
 const OwnerDashboard = () => {
   const navigate = useNavigate();
-
   const { shopData } = useSelector((state) => state.shop);
+  const { loading } = useGetMyShop();
 
+  // Loading ya data fetch ho raha hai
+  if (loading && shopData === null) {
+    return (
+      <>
+        <Navbar />
+        <div className="w-full h-screen flex items-center justify-center">
+          <p className="text-2xl font-semibold text-amber-600 animate-pulse">
+            Loading your shop data...
+          </p>
+        </div>
+      </>
+    );
+  }
+
+  // Fetch complete ho gaya, ab shopData null → show "Add Your Restaurant"
   return (
     <>
       <Navbar />
       <div className="w-full h-[calc(100vh)] flex flex-col items-center px-3 pt-[80px] overflow-y-auto">
-        {!shopData && (
+        {!shopData ? (
           <div className="flex items-center justify-center p-4 sm:p-6 w-full">
             <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 border border-gray-100 hover:shadow-xl transition-shadow duration-300">
               <div className="flex flex-col items-center text-center">
@@ -47,9 +63,7 @@ const OwnerDashboard = () => {
               </div>
             </div>
           </div>
-        )}
-
-        {shopData && (
+        ) : (
           <div className="w-full px-2 flex flex-col items-center gap-5">
             <h2 className="w-full text-4xl sm:text-5xl font-ceviche flex items-center justify-center gap-2 text-black text-center mt-5 shadow-md p-4 box-border">
               <RiRestaurantFill className="hidden sm:block sm:w-[35px] h-[35px] text-amber-600 " />
@@ -82,7 +96,7 @@ const OwnerDashboard = () => {
           </div>
         )}
 
-        {shopData && shopData?.items?.length === 0 && (
+        {shopData?.items?.length === 0 && (
           <div className="flex items-center justify-center p-4 sm:p-6 w-full mt-5">
             <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 border border-gray-100 hover:shadow-xl transition-shadow duration-300">
               <div className="flex flex-col items-center text-center">
@@ -90,9 +104,7 @@ const OwnerDashboard = () => {
                 <h2 className="my-2 text-3xl font-bold text-amber-600">
                   Add Your Food Items
                 </h2>
-                <p>
-                  Add your tasty dishes and let customers find their favorites!
-                </p>
+                <p>Add your tasty dishes and let customers find their favorites!</p>
                 <div className="flex items-center mt-5 gap-3">
                   <MdArrowRight className="text-amber-500 text-4xl" />
                   <button
@@ -107,6 +119,7 @@ const OwnerDashboard = () => {
             </div>
           </div>
         )}
+
         {shopData?.items?.length > 0 && (
           <div className="w-full max-w-3xl flex flex-col sm:flex-row flex-wrap p-2 shadow-xl gap-4 justify-center items-center relative">
             {shopData.items.map((foodItems, index) => (
