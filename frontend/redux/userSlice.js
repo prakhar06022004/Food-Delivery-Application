@@ -9,6 +9,7 @@ const userSlice = createSlice({
     shopInMyCity: null,
     itemsInMyCity: null,
     cartItems: [],
+    totalAmount: 0,
   },
   reducers: {
     setUserData: (state, action) => {
@@ -34,6 +35,10 @@ const userSlice = createSlice({
       } else {
         state.cartItems.push(cartItem);
       }
+      state.totalAmount = state.cartItems.reduce(
+        (sum, i) => sum + i.price * i.quantity,
+        0
+      );
     },
     setUpdateQuantity: (state, action) => {
       const { id, quantity } = action.payload;
@@ -42,10 +47,18 @@ const userSlice = createSlice({
         if (quantity > 0) {
           item.quantity = quantity;
         }
+        state.totalAmount = state.cartItems.reduce(
+          (sum, i) => sum + i.price * i.quantity,
+          0
+        );
       }
     },
     setRemoveCartItem: (state, action) => {
       state.cartItems = state.cartItems.filter((i) => i.id !== action.payload);
+      state.totalAmount = state.cartItems.reduce(
+        (sum, i) => sum + i.price * i.quantity,
+        0
+      );
     },
   },
 });

@@ -37,7 +37,6 @@ const EditItem = () => {
 
   const handleImage = (e) => {
     const file = e.target.files[0];
-    // console.log(file);
     setBackendImg(file);
     setFrontendImg(URL.createObjectURL(file));
   };
@@ -72,7 +71,7 @@ const EditItem = () => {
       console.log(error);
     }
   };
-  
+
   useEffect(() => {
     const handleGetItemId = async () => {
       try {
