@@ -101,7 +101,7 @@ function FoodCardsCity({ data }) {
                 cartItems.some((i) => i.id === data._id)
                   ? "bg-gray-800"
                   : "bg-amber-500"
-              } h-full px-1 py-2  text-white cursor-pointer flex items-center justify-center`}
+              } h-full px-1 py-2 text-white cursor-pointer flex items-center justify-center`}
               onClick={() =>
                 dispatchRedux(
                   setAddToCart({

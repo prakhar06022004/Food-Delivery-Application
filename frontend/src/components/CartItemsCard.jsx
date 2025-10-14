@@ -36,16 +36,16 @@ function CartItemsCard({ data }) {
             </h1>
           </div>
         </div>
-        <div className="flex items-center gap-2 cursor-pointer select-none">
+        <div className="flex items-center sm:gap-2 cursor-pointer select-none w-[120px] gap-[5px]">
           <span
-            className="bg-gray-200 rounded-full p-0.5"
+            className="bg-gray-200 rounded-full p-0 sm:p-0.5"
             onClick={() => handleDecrease(data.id, data.quantity)}
           >
             <FiMinus size={30} />
           </span>
           <span>{data?.quantity}</span>
           <span
-            className="bg-gray-200 rounded-full p-0.5"
+            className="bg-gray-200 rounded-full p-0 sm:p-0.5"
             onClick={() => handleIncrease(data.id, data.quantity)}
           >
             <IoIosAdd size={30} />

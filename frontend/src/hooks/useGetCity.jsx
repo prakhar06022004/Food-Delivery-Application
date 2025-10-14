@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setCity, setState, setUserData } from "../../redux/userSlice";
+import { setCity, setState } from "../../redux/userSlice";
 function UseGetCity() {
   const dispatchRedux = useDispatch();
-  const { userData, city, state } = useSelector((state) => state.user);
+  const { userData } = useSelector((state) => state.user);
   const geoApiKey = import.meta.env.VITE_GEO_API_KEY;
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(async (posi) => {
