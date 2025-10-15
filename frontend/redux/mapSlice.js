@@ -5,7 +5,7 @@ const mapSlice = createSlice({
   initialState: {
     location: {
       latitude: null,
-      longitute: null,
+      longitude: null,
     },
     address: null,
   },
@@ -13,7 +13,7 @@ const mapSlice = createSlice({
     setLocation: (state, action) => {
       const { latitude, longitude } = action.payload;
       state.location.latitude = latitude;
-      state.location.longitute = longitude;
+      state.location.longitude = longitude;
     },
     setAddress: (state, action) => {
       state.address = action.payload;
