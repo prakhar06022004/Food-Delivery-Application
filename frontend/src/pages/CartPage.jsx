@@ -36,7 +36,7 @@ function CartPage() {
                   </span>
                 </div>
                 <div className="flex justify-end mt-2">
-                  <button className="bg-[#FD5922] text-white p-2 rounded-2xl cursor-pointer">
+                  <button className="bg-[#FD5922] text-white p-2 rounded-2xl cursor-pointer" onClick={()=>navigate("/checkout")}>
                     Proceed to checkout
                   </button>
                 </div>

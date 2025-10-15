@@ -14,6 +14,7 @@ import UseGetCity from "./hooks/useGetCity";
 import UseGetShopCity from "./hooks/useGetShopCity";
 import UseGetItemsByCity from "./hooks/useGetItemsByCity";
 import { useSelector } from "react-redux";
+import CheckOutPage from "./pages/checkOutPage";
 
 const App = () => {
   const { userData } = useSelector((state) => state.user);
@@ -70,6 +71,10 @@ const App = () => {
       <Route
         path="/cart"
         element={userData ? <CartPage /> : <Navigate to="/signin" />}
+      />
+      <Route
+        path="/checkout"
+        element={userData ? <CheckOutPage /> : <Navigate to="/signin" />}
       />
     </Routes>
   );

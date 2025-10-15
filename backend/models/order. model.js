@@ -31,7 +31,7 @@ const orderSchema = new mongoose.Schema(
       ref: "User",
     },
     paymentMethod: {
-      type: { String },
+      type: String,
       enum: ["cod", "online"],
       required: true,
     },
