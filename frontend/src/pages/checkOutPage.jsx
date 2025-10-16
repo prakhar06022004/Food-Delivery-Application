@@ -3,19 +3,33 @@ import { useNavigate } from "react-router-dom";
 import { FaLocationDot } from "react-icons/fa6";
 import { TbCurrentLocation } from "react-icons/tb";
 import { IoIosSearch } from "react-icons/io";
-import { useSelector } from "react-redux";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { useDispatch, useSelector } from "react-redux";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import { setLocation } from "../../redux/mapSlice";
 function CheckOutPage() {
   const { location, address } = useSelector((state) => state.map);
   const navigate = useNavigate();
+  const dispatchRedux = useDispatch();
+
+  const ReCenterMap = ({ location }) => {
+    if (location?.latitude && location?.longitude) {
+      const map = useMap();
+      map.setView([location.latitude, location.longitude], 16, { animate: true });
+    }
+    return null;
+  };
+  const onDragEnd = (e) => {
+    const { lat, lng } = e.target._latlng;
+    dispatchRedux(setLocation({ latitude: lat, longitude: lng }));
+    console.log(e);
+  };
   return (
     <div className="min-h-screen flex items-center justify-center p-6 relative">
-      
       <div className="text-amber-600 cursor-pointer absolute sm:top-5 sm:left-5 top-2 left-2">
         <IoIosArrowRoundBack size={40} onClick={() => navigate("/")} />
       </div>
-      
+
       <div className="w-full max-w-3xl shadow-xl p-5 rounded-2xl space-y-5">
         <h1 className="font-fredoka font-medium text-[18px] ">CheckOut</h1>
         {/* location section */}
@@ -29,7 +43,7 @@ function CheckOutPage() {
               type="text"
               placeholder="Enter your delivery location..."
               className="w-full border-gray-200 py-2 px-3 outline-none focus:border-amber-600 focus:ring-2 focus:ring-amber-300 rounded-2xl border-[1px]"
-              value={address}
+              value={address || ""}
             />
             <button className="flex justify-center items-center w-[50px] bg-amber-600 text-white rounded-xl cursor-pointer hover:bg-amber-700 duration-100">
               <IoIosSearch size={25} />
@@ -51,9 +65,14 @@ function CheckOutPage() {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   />
-                  <Marker position={[location.latitude, location.longitude]}>
+                  <Marker
+                    position={[location.latitude, location.longitude]}
+                    draggable
+                    eventHandlers={{ dragend: onDragEnd }}
+                  >
                     <Popup>Your current location</Popup>
                   </Marker>
+                  <ReCenterMap location={location} />
                 </MapContainer>
               ) : (
                 <div className="text-center text-gray-500 py-10">

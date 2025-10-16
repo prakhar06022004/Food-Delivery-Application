@@ -20,7 +20,11 @@ function UseGetCity() {
       console.log(result?.data?.results[0]);
       dispatchRedux(setCity(result?.data?.results[0]?.county));
       dispatchRedux(setState(result?.data?.results[0]?.state));
-      dispatchRedux(setAddress(result?.data?.results[0]?.address_line2));
+      const data = result?.data?.results[0];
+      const fullAddress = ` ${data?.state || ""} ${data?.county} ${
+        data?.postcode || ""
+      }`;
+      dispatchRedux(setAddress(fullAddress));
     });
   }, [userData]);
 }
