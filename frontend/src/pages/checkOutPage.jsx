@@ -11,9 +11,11 @@ function CheckOutPage() {
   const navigate = useNavigate();
   return (
     <div className="min-h-screen flex items-center justify-center p-6 relative">
+      
       <div className="text-amber-600 cursor-pointer absolute sm:top-5 sm:left-5 top-2 left-2">
         <IoIosArrowRoundBack size={40} onClick={() => navigate("/")} />
       </div>
+      
       <div className="w-full max-w-3xl shadow-xl p-5 rounded-2xl space-y-5">
         <h1 className="font-fredoka font-medium text-[18px] ">CheckOut</h1>
         {/* location section */}
