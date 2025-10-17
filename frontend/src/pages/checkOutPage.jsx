@@ -15,7 +15,9 @@ function CheckOutPage() {
   const ReCenterMap = ({ location }) => {
     if (location?.latitude && location?.longitude) {
       const map = useMap();
-      map.setView([location.latitude, location.longitude], 16, { animate: true });
+      map.setView([location.latitude, location.longitude], 16, {
+        animate: true,
+      });
     }
     return null;
   };
