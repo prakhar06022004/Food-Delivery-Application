@@ -7,11 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { setLocation } from "../../redux/mapSlice";
+import axios from "axios";
+import { useState } from "react";
 function CheckOutPage() {
   const { location, address } = useSelector((state) => state.map);
   const navigate = useNavigate();
   const dispatchRedux = useDispatch();
-
+  const [Address, setAddress] = useState("");
   const ReCenterMap = ({ location }) => {
     if (location?.latitude && location?.longitude) {
       const map = useMap();
@@ -24,7 +26,23 @@ function CheckOutPage() {
   const onDragEnd = (e) => {
     const { lat, lng } = e.target._latlng;
     dispatchRedux(setLocation({ latitude: lat, longitude: lng }));
-    console.log(e);
+    // console.log(e);
+    getAddressByLatLng(lat, lng);
+  };
+
+  const getAddressByLatLng = async (lat, lng) => {
+    try {
+      const geoApiKey = import.meta.env.VITE_GEO_API_KEY;
+
+      const result = await axios.get(
+        `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&format=json&apiKey=${geoApiKey}`
+      );
+      const data = `${result?.data?.results[0].address_line1} ${result?.data?.results[0].address_line2}`;
+      console.log(data);
+      setAddress(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="min-h-screen flex items-center justify-center p-6 relative">
@@ -45,7 +63,8 @@ function CheckOutPage() {
               type="text"
               placeholder="Enter your delivery location..."
               className="w-full border-gray-200 py-2 px-3 outline-none focus:border-amber-600 focus:ring-2 focus:ring-amber-300 rounded-2xl border-[1px]"
-              value={address || ""}
+              value={Address || ""}
+              onChange={(e) => setAddress(e.target.value)}
             />
             <button className="flex justify-center items-center w-[50px] bg-amber-600 text-white rounded-xl cursor-pointer hover:bg-amber-700 duration-100">
               <IoIosSearch size={25} />
@@ -78,7 +97,7 @@ function CheckOutPage() {
                 </MapContainer>
               ) : (
                 <div className="text-center text-gray-500 py-10">
-                  📍 Location not set yet
+                  📍Location not set yet
                 </div>
               )}
             </div>
