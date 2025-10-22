@@ -8,12 +8,13 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { setLocation } from "../../redux/mapSlice";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 function CheckOutPage() {
   const { location, address } = useSelector((state) => state.map);
   const navigate = useNavigate();
   const dispatchRedux = useDispatch();
   const [Address, setAddress] = useState("");
+
   const ReCenterMap = ({ location }) => {
     if (location?.latitude && location?.longitude) {
       const map = useMap();
@@ -39,15 +40,31 @@ function CheckOutPage() {
       );
       const data = `${result?.data?.results[0].address_line1} ${result?.data?.results[0].address_line2}`;
       console.log(data);
-      setAddress(data);
+      dispatchRedux(setAddress(data));
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (location?.latitude && location?.longitude) {
+      getAddressByLatLng(location.latitude, location.longitude);
+    }
+  }, [location]);
+
+  const getCurrentLocation = () => {
+    navigator.geolocation.getCurrentPosition(async (posi) => {
+      // console.log(posi);
+      const latitude = posi.coords.latitude;
+      const longitude = posi.coords.longitude;
+      dispatchRedux(setLocation({ latitude, longitude }));
+      getAddressByLatLng(latitude, longitude);
+    });
+  };
   return (
     <div className="min-h-screen flex items-center justify-center p-6 relative">
       <div className="text-amber-600 cursor-pointer absolute sm:top-5 sm:left-5 top-2 left-2">
-        <IoIosArrowRoundBack size={40} onClick={() => navigate("/")} />
+        <IoIosArrowRoundBack size={40} onClick={() => navigate("/cart")} />
       </div>
 
       <div className="w-full max-w-3xl shadow-xl p-5 rounded-2xl space-y-5">
@@ -58,7 +75,7 @@ function CheckOutPage() {
             <FaLocationDot className="text-amber-600" size={24} />
             Delivery Location
           </h1>
-          <div className="flex gap-2 mt-3">
+          <div className="sm:flex gap-2 mt-3">
             <input
               type="text"
               placeholder="Enter your delivery location..."
@@ -66,12 +83,17 @@ function CheckOutPage() {
               value={Address || ""}
               onChange={(e) => setAddress(e.target.value)}
             />
-            <button className="flex justify-center items-center w-[50px] bg-amber-600 text-white rounded-xl cursor-pointer hover:bg-amber-700 duration-100">
-              <IoIosSearch size={25} />
-            </button>
-            <button className="text-gray-700 cursor-pointer">
-              <TbCurrentLocation size={27} />
-            </button>
+            <div className="flex gap-2 mt-2 sm:mt-0">
+              <button className="flex justify-center items-center bg-amber-600 text-white rounded-full cursor-pointer sm:p-2 p-1 hover:bg-amber-700 duration-100">
+                <IoIosSearch size={25} />
+              </button>
+              <button
+                className="inline-block cursor-pointer bg-blue-700 text-white sm:p-2 p-1 rounded-3xl hover:bg-blue-800 duration-200"
+                onClick={getCurrentLocation}
+              >
+                <TbCurrentLocation size={27} />
+              </button>
+            </div>
           </div>
 
           <div className="border rounded-2xl overflow-hidden mt-4">
