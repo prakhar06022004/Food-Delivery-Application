@@ -68,7 +68,7 @@ function CheckOutPage() {
       </div>
 
       <div className="w-full max-w-3xl shadow-xl p-5 rounded-2xl space-y-5">
-        <h1 className="font-fredoka font-medium text-[18px] ">CheckOut</h1>
+        <h1 className="font-fredoka font-medium sm:text-[18px] text-[20px]">CheckOut</h1>
         {/* location section */}
         <section>
           <h1 className="flex items-center gap-1">
