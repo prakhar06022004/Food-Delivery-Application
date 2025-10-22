@@ -6,15 +6,16 @@ import { IoIosSearch } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { setLocation } from "../../redux/mapSlice";
+import { setLocation, setAddress } from "../../redux/mapSlice";
 import axios from "axios";
 import { useEffect, useState } from "react";
 function CheckOutPage() {
+  const geoApiKey = import.meta.env.VITE_GEO_API_KEY;
+
   const { location, address } = useSelector((state) => state.map);
   const navigate = useNavigate();
   const dispatchRedux = useDispatch();
-  const [Address, setAddress] = useState("");
-
+  const [addressInput, setAddressInput] = useState("");
   const ReCenterMap = ({ location }) => {
     if (location?.latitude && location?.longitude) {
       const map = useMap();
@@ -33,8 +34,6 @@ function CheckOutPage() {
 
   const getAddressByLatLng = async (lat, lng) => {
     try {
-      const geoApiKey = import.meta.env.VITE_GEO_API_KEY;
-
       const result = await axios.get(
         `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&format=json&apiKey=${geoApiKey}`
       );
@@ -61,6 +60,26 @@ function CheckOutPage() {
       getAddressByLatLng(latitude, longitude);
     });
   };
+
+  const getLatLngByAddress = async () => {
+    try {
+      const result = await axios.get(
+        `https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(
+          addressInput
+        )}&apiKey=${geoApiKey}`
+      );
+      // console.log(result?.data?.features?.[0]?.properties);
+      const { lat, lon } = result?.data?.features?.[0]?.properties;
+      dispatchRedux(setLocation({ latitude: lat, longitude: lon }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    setAddressInput(address);
+  }, [address]);
+
   return (
     <div className="min-h-screen flex items-center justify-center p-6 relative">
       <div className="text-amber-600 cursor-pointer absolute sm:top-5 sm:left-5 top-2 left-2">
@@ -68,7 +87,9 @@ function CheckOutPage() {
       </div>
 
       <div className="w-full max-w-3xl shadow-xl p-5 rounded-2xl space-y-5">
-        <h1 className="font-fredoka font-medium sm:text-[18px] text-[20px]">CheckOut</h1>
+        <h1 className="font-fredoka font-medium sm:text-[18px] text-[20px]">
+          CheckOut
+        </h1>
         {/* location section */}
         <section>
           <h1 className="flex items-center gap-1">
@@ -80,11 +101,20 @@ function CheckOutPage() {
               type="text"
               placeholder="Enter your delivery location..."
               className="w-full border-gray-200 py-2 px-3 outline-none focus:border-amber-600 focus:ring-2 focus:ring-amber-300 rounded-2xl border-[1px]"
-              value={Address || ""}
-              onChange={(e) => setAddress(e.target.value)}
+              value={addressInput || ""}
+              onChange={(e) => setAddressInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  getLatLngByAddress();
+                }
+              }}
+              // break temporry
             />
             <div className="flex gap-2 mt-2 sm:mt-0">
-              <button className="flex justify-center items-center bg-amber-600 text-white rounded-full cursor-pointer sm:p-2 p-1 hover:bg-amber-700 duration-100">
+              <button
+                className="flex justify-center items-center bg-amber-600 text-white rounded-full cursor-pointer sm:p-2 p-1 hover:bg-amber-700 duration-100"
+                onClick={getLatLngByAddress}
+              >
                 <IoIosSearch size={25} />
               </button>
               <button
