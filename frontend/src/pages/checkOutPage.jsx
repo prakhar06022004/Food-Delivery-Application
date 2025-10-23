@@ -4,6 +4,9 @@ import { FaLocationDot } from "react-icons/fa6";
 import { TbCurrentLocation } from "react-icons/tb";
 import { IoIosSearch } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
+import { MdDeliveryDining, MdOutlinePhoneIphone } from "react-icons/md";
+import { FaCreditCard } from "react-icons/fa";
+
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { setLocation, setAddress } from "../../redux/mapSlice";
@@ -156,11 +159,13 @@ function CheckOutPage() {
             </div>
           </div>
         </section>
-        <section className="">
+
+        {/* payment method section */}
+        <section>
           <h2 className="text-lg text-gray-800 font-fredoka font-medium">
             Payment Method
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
             <div
               className={`flex items-center gap-3 rounded-xl border p-4 text-left transition cursor-pointer ${
                 paymentMethod === "cod"
@@ -168,7 +173,21 @@ function CheckOutPage() {
                   : "border-gray-600 hover:border-gray-500"
               } `}
               onClick={() => setPaymentMethod("cod")}
-            ></div>
+            >
+              <div className="flex items-center gap-2">
+                <h2 className="bg-green-400/10 p-1 rounded-full">
+                  <MdDeliveryDining size={28} className="text-green-500" />
+                </h2>
+                <div>
+                  <h2 className="text-[15px] font-semibold">
+                    Cash On Delivery
+                  </h2>
+                  <p className="text-[15px] text-gray-600">
+                    Pay when your food arrives
+                  </p>
+                </div>
+              </div>
+            </div>
             <div
               className={`flex items-center gap-3 rounded-xl border p-4 text-left transition cursor-pointer ${
                 paymentMethod === "online"
@@ -176,7 +195,20 @@ function CheckOutPage() {
                   : "border-gray-600 hover:border-gray-500"
               } `}
               onClick={() => setPaymentMethod("online")}
-            ></div>
+            >
+              <div className="flex items-center gap-0.5">
+                <h2 className="bg-violet-400/10 p-1 rounded-full">
+                  <MdOutlinePhoneIphone size={28} className="text-violet-500" />
+                </h2>
+                <h2 className="bg-blue-400/10 p-1 rounded-full">
+                  <FaCreditCard size={26} className="text-blue-500" />
+                </h2>
+                <div>
+                  <h2 className="font-semibold ml-2">UPI/Credit/Debit Card</h2>
+                  <p className="ml-2 text-gray-600">Pay securely online</p>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </div>
