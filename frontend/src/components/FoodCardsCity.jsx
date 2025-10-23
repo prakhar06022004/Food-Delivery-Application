@@ -5,7 +5,7 @@ import { FaRegStar } from "react-icons/fa";
 import { IoCart } from "react-icons/io5";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setAddToCart } from "../../redux/userSlice";
+import { setAddToCart, setRemoveCartItem } from "../../redux/userSlice";
 import { IoIosAdd } from "react-icons/io";
 import { FiMinus } from "react-icons/fi";
 function FoodCardsCity({ data }) {
@@ -19,8 +19,10 @@ function FoodCardsCity({ data }) {
     }
   };
   const handleDecrease = () => {
-    if (quantity > 0) {
+    if (quantity > 1) {
       setQuantity((prev) => prev - 1);
+    } else {
+      dispatchRedux(setRemoveCartItem(data._id));
     }
   };
 
@@ -38,7 +40,7 @@ function FoodCardsCity({ data }) {
     return stars;
   };
   renderingStars();
-  console.log(data);
+  // console.log(data);
   return (
     <div className="w-[160px] sm:w-[220px] h-auto rounded-2xl overflow-hidden shadow-xl border border-amber-300">
       <div className="relative w-full h-auto flex flex-col justify-center items-center bg-white p-2 ">
@@ -98,7 +100,7 @@ function FoodCardsCity({ data }) {
             {/* Right part: Cart icon */}
             <div
               className={`${
-                cartItems.some((i) => i.id === data._id)
+                cartItems.some((i) => i.id === data._id && i.quantity > 0)
                   ? "bg-gray-800"
                   : "bg-amber-500"
               } h-full px-1 py-2 text-white cursor-pointer flex items-center justify-center`}

@@ -2,13 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const userSlice = createSlice({
   name: "user",
+
   initialState: {
     userData: null,
     city: null,
     state: null,
     shopInMyCity: null,
     itemsInMyCity: null,
-    cartItems: [],
+    cartItems: JSON.parse(localStorage.getItem("cartItems")) || [],
     totalAmount: 0,
   },
   reducers: {

@@ -16,6 +16,8 @@ function CheckOutPage() {
   const geoApiKey = import.meta.env.VITE_GEO_API_KEY;
 
   const { location, address } = useSelector((state) => state.map);
+  const { cartItems } = useSelector((state) => state.user);
+  console.log(cartItems);
   const navigate = useNavigate();
   const dispatchRedux = useDispatch();
   const [addressInput, setAddressInput] = useState("");
@@ -95,7 +97,7 @@ function CheckOutPage() {
           CheckOut
         </h1>
         {/* location section */}
-        <section>
+        <section className="select-none">
           <h1 className="flex items-center gap-1">
             <FaLocationDot className="text-amber-600" size={24} />
             Delivery Location
@@ -161,7 +163,7 @@ function CheckOutPage() {
         </section>
 
         {/* payment method section */}
-        <section>
+        <section className="select-none">
           <h2 className="text-lg text-gray-800 font-fredoka font-medium">
             Payment Method
           </h2>
@@ -182,7 +184,7 @@ function CheckOutPage() {
                   <h2 className="text-[15px] font-semibold">
                     Cash On Delivery
                   </h2>
-                  <p className="text-[15px] text-gray-600">
+                  <p className="sm:text-[16px] text-[14px] text-gray-600">
                     Pay when your food arrives
                   </p>
                 </div>
@@ -197,18 +199,37 @@ function CheckOutPage() {
               onClick={() => setPaymentMethod("online")}
             >
               <div className="flex items-center gap-0.5">
-                <h2 className="bg-violet-400/10 p-1 rounded-full">
+                <h2 className="bg-violet-400/10 p-1 rounded-full w-fit">
                   <MdOutlinePhoneIphone size={28} className="text-violet-500" />
                 </h2>
-                <h2 className="bg-blue-400/10 p-1 rounded-full">
+                <h2 className="bg-blue-400/10 p-1 rounded-full w-fit">
                   <FaCreditCard size={26} className="text-blue-500" />
                 </h2>
                 <div>
                   <h2 className="font-semibold ml-2">UPI/Credit/Debit Card</h2>
-                  <p className="ml-2 text-gray-600">Pay securely online</p>
+                  <p className="ml-2 sm:text-[16px] text-[14px] text-gray-600">
+                    Pay securely online
+                  </p>
                 </div>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* order summary section */}
+        <section className="select-none">
+          <h2 className="text-lg text-gray-800 font-fredoka font-medium">
+            Order Summary
+          </h2>
+          <div className="border p-1 rounded-2xl border-gray-500">
+            {cartItems.map((item, index) => (
+              <div key={index}>
+                <span>
+                  {item.name} x {item.quantity}
+                </span>
+                <span>{item.price * item.quantity}</span>
+              </div>
+            ))}
           </div>
         </section>
       </div>
