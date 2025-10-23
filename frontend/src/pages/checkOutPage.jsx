@@ -16,6 +16,7 @@ function CheckOutPage() {
   const navigate = useNavigate();
   const dispatchRedux = useDispatch();
   const [addressInput, setAddressInput] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("cod");
   const ReCenterMap = ({ location }) => {
     if (location?.latitude && location?.longitude) {
       const map = useMap();
@@ -153,6 +154,29 @@ function CheckOutPage() {
                 </div>
               )}
             </div>
+          </div>
+        </section>
+        <section className="">
+          <h2 className="text-lg text-gray-800 font-fredoka font-medium">
+            Payment Method
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div
+              className={`flex items-center gap-3 rounded-xl border p-4 text-left transition cursor-pointer ${
+                paymentMethod === "cod"
+                  ? "border-amber-500 bg-amber-50"
+                  : "border-gray-600 hover:border-gray-500"
+              } `}
+              onClick={() => setPaymentMethod("cod")}
+            ></div>
+            <div
+              className={`flex items-center gap-3 rounded-xl border p-4 text-left transition cursor-pointer ${
+                paymentMethod === "online"
+                  ? "border-amber-500 bg-amber-50"
+                  : "border-gray-600 hover:border-gray-500"
+              } `}
+              onClick={() => setPaymentMethod("online")}
+            ></div>
           </div>
         </section>
       </div>
