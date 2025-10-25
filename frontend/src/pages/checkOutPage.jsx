@@ -19,12 +19,15 @@ function CheckOutPage() {
   const geoApiKey = import.meta.env.VITE_GEO_API_KEY;
 
   const { location, address } = useSelector((state) => state.map);
-  const { cartItems } = useSelector((state) => state.user);
+  const { cartItems, totalAmount } = useSelector((state) => state.user);
   console.log(cartItems);
   const navigate = useNavigate();
   const dispatchRedux = useDispatch();
   const [addressInput, setAddressInput] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("cod");
+
+  const deliveryFee = totalAmount > 500 ? 0 : 40;
+  const amountWithDeliveryFee = totalAmount + deliveryFee;
   const ReCenterMap = ({ location }) => {
     if (location?.latitude && location?.longitude) {
       const map = useMap();
@@ -236,7 +239,27 @@ function CheckOutPage() {
                 </span>
               </div>
             ))}
-            <hr className="mt-2 text-gray-300"/>
+            <hr className="mt-2 text-gray-300" />
+            <div className="flex justify-between text-gray-700 font-semibold mt-1">
+              <span>SubTotal</span>
+              <span className="flex items-center">
+                <MdCurrencyRupee />
+                {totalAmount}
+              </span>
+            </div>
+            <div className="flex justify-between text-gray-700">
+              <span>Delivery Fee</span>
+              <span>{deliveryFee === 0 ? "Free" : deliveryFee}</span>
+            </div>
+
+            <div className="flex justify-between text-gray-700 font-fredoka font-semibold mt-2 text-[20px]">
+              <span>Total</span>
+              <span className="flex items-center text-amber-500">
+                {" "}
+                <MdCurrencyRupee />
+                {amountWithDeliveryFee}
+              </span>
+            </div>
           </div>
         </section>
       </div>
