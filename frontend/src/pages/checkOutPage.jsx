@@ -4,9 +4,12 @@ import { FaLocationDot } from "react-icons/fa6";
 import { TbCurrentLocation } from "react-icons/tb";
 import { IoIosSearch } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { MdDeliveryDining, MdOutlinePhoneIphone } from "react-icons/md";
+import {
+  MdDeliveryDining,
+  MdOutlinePhoneIphone,
+  MdCurrencyRupee,
+} from "react-icons/md";
 import { FaCreditCard } from "react-icons/fa";
-
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { setLocation, setAddress } from "../../redux/mapSlice";
@@ -221,15 +224,19 @@ function CheckOutPage() {
           <h2 className="text-lg text-gray-800 font-fredoka font-medium">
             Order Summary
           </h2>
-          <div className="border p-1 rounded-2xl border-gray-500">
+          <div className="border rounded-2xl border-gray-500 p-3">
             {cartItems.map((item, index) => (
-              <div key={index}>
-                <span>
+              <div key={index} className="flex justify-between">
+                <span className="">
                   {item.name} x {item.quantity}
                 </span>
-                <span>{item.price * item.quantity}</span>
+                <span className="flex items-center justify-center">
+                  <MdCurrencyRupee />
+                  {item.price * item.quantity}
+                </span>
               </div>
             ))}
+            <hr className="mt-2 text-gray-300"/>
           </div>
         </section>
       </div>
