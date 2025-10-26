@@ -229,7 +229,7 @@ function CheckOutPage() {
           </h2>
           <div className="border rounded-2xl border-gray-500 p-3">
             {cartItems.map((item, index) => (
-              <div key={index} className="flex justify-between">
+              <div key={index} className="flex justify-between font-semibold">
                 <span className="">
                   {item.name} x {item.quantity}
                 </span>
@@ -240,7 +240,7 @@ function CheckOutPage() {
               </div>
             ))}
             <hr className="mt-2 text-gray-300" />
-            <div className="flex justify-between text-gray-700 font-semibold mt-1">
+            <div className="flex justify-between text-gray-700 font-semibold mt-1 mb-1">
               <span>SubTotal</span>
               <span className="flex items-center">
                 <MdCurrencyRupee />
@@ -249,12 +249,15 @@ function CheckOutPage() {
             </div>
             <div className="flex justify-between text-gray-700">
               <span>Delivery Fee</span>
-              <span>{deliveryFee === 0 ? "Free" : deliveryFee}</span>
+              <span className="flex items-center">
+                <MdCurrencyRupee />
+                {deliveryFee === 0 ? "Free" : deliveryFee}
+              </span>
             </div>
 
-            <div className="flex justify-between text-gray-700 font-fredoka font-semibold mt-2 text-[20px]">
+            <div className="flex justify-between font-fredoka font-semibold mt-2 text-[20px] text-amber-500">
               <span>Total</span>
-              <span className="flex items-center text-amber-500">
+              <span className="flex items-center">
                 {" "}
                 <MdCurrencyRupee />
                 {amountWithDeliveryFee}
@@ -262,6 +265,9 @@ function CheckOutPage() {
             </div>
           </div>
         </section>
+        <button className="w-full bg-amber-500 p-1 rounded-2xl text-white text-2xl font-fredoka cursor-pointer hover:bg-amber-600 duration-150">
+          {paymentMethod === "cod" ? "Place Order" : "Pay & Place Order"}
+        </button>
       </div>
     </div>
   );
